@@ -67,7 +67,6 @@ public class Robot extends TimedRobot {
 		
 	}
 	public void teleopPeriodic() {
-    System.out.print("teleopPeriodic");
 		teleopManipulatorPeriodic();
 		teleopDrivePeriodic();
 		doubleSolenoidControl();
