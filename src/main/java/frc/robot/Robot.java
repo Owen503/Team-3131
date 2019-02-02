@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.CameraServer;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -39,14 +40,17 @@ public class Robot extends TimedRobot {
 			button8 = new JoystickButton(controller, 8);
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
-	DoubleSolenoid Front = new DoubleSolenoid(1, 0);
-	DoubleSolenoid Back = new DoubleSolenoid(3, 2);
-	Compressor c = new Compressor(0);
+	
+	
+	//DoubleSolenoid Front = new DoubleSolenoid(1, 0);
+	//DoubleSolenoid Back = new DoubleSolenoid(3, 2);
+	//Compressor c = new Compressor(0);
 
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
 	public void robotInit() {
-		c.setClosedLoopControl(true);
+		//c.setClosedLoopControl(true);
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 	
 	/* Periodic functions are ran several times a second the entire time the robot
@@ -113,6 +117,7 @@ public class Robot extends TimedRobot {
 
 	}
 	public void doubleSolenoidControl() {
+		/*
 		if(button5.get()) {
 			Front.set(DoubleSolenoid.Value.kForward);
 		}
@@ -125,6 +130,7 @@ public class Robot extends TimedRobot {
 		else {
 			Back.set(DoubleSolenoid.Value.kReverse);
 		}
+		*/
 	}
 		
 }
