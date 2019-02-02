@@ -97,11 +97,11 @@ public class Robot extends TimedRobot {
 		}
 		
 		
-		if (button3.get()) {
+		if (controller.getPOV() == 0) {
 			manipulator.raise();
 			
 		}
-		else if (button4.get()) {
+		else if (controller.getPOV() == 180) {
 			manipulator.lower();
 		
 		}
