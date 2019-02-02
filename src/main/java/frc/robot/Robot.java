@@ -46,7 +46,6 @@ public class Robot extends TimedRobot {
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
 	public void robotInit() {
-    System.out.print("WE GOT HERE");
 		c.setClosedLoopControl(true);
 	}
 	
