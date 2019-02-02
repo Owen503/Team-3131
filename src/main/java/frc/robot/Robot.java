@@ -31,6 +31,17 @@ import edu.wpi.first.cameraserver.*;
  
 public class Robot extends TimedRobot {
 
+	public Robot() {
+		try {
+			Front = new DoubleSolenoid(1, 0);
+			Back = new DoubleSolenoid(3, 2);
+			c = new Compressor(0);
+		} catch (Exception e) {
+			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
+			System.out.print(e.toString());
+		}
+	}
+
 	Joystick controller = new Joystick(0);
 	Button button1 = new JoystickButton(controller, 1),
 			button2 = new JoystickButton(controller, 2),
@@ -44,14 +55,16 @@ public class Robot extends TimedRobot {
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	
 	
-	//DoubleSolenoid Front = new DoubleSolenoid(1, 0);
-	//DoubleSolenoid Back = new DoubleSolenoid(3, 2);
-	//Compressor c = new Compressor(0);
+	DoubleSolenoid Front;
+	DoubleSolenoid Back;
+	Compressor c;
 
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
 	public void robotInit() {
-		//c.setClosedLoopControl(true);
+		if (c != null) {
+			c.setClosedLoopControl(true);
+		}
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 	
@@ -119,7 +132,9 @@ public class Robot extends TimedRobot {
 
 	}
 	public void doubleSolenoidControl() {
-		/*
+		if (Front == null || Back == null) {
+			return;
+		}
 		if(button5.get()) {
 			Front.set(DoubleSolenoid.Value.kForward);
 		}
@@ -132,7 +147,7 @@ public class Robot extends TimedRobot {
 		else {
 			Back.set(DoubleSolenoid.Value.kReverse);
 		}
-		*/
+		
 	}
 		
 }
