@@ -78,7 +78,10 @@ public class Robot extends TimedRobot {
 		System.out.println("potentiometer: " + angleSensor.getVoltage());
 	}
 	private void teleopDrivePeriodic() {
-		driveTrain.arcadeDrive(-controller.getRawAxis(1), controller.getRawAxis(0));
+		driveTrain.arcadeDrive(
+			Math.pow(-controller.getRawAxis(1),3),
+			Math.pow(controller.getRawAxis(0),3)
+			);
 		
 	}
 
