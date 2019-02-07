@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -83,8 +84,8 @@ public class Robot extends TimedRobot {
 
 	private void teleopManipulatorPeriodic() {
 		if(button1.get() && button2.get()){
-			//controller.setRumble(, 1);
-			
+			controller.setRumble(RumbleType.kLeftRumble, 1);
+			controller.setRumble(RumbleType.kRightRumble, 1);
 		}
 		if(button1.get() && !manipulator.containsBall()){
 			manipulator.intake();
@@ -102,6 +103,8 @@ public class Robot extends TimedRobot {
 
 			if(angleSensor.getVoltage() > 4.2){
 				manipulator.stopRaise();
+				controller.setRumble(RumbleType.kLeftRumble, 1);
+				controller.setRumble(RumbleType.kRightRumble, 1);
 			} else {
 				manipulator.raise();
 			}
@@ -111,6 +114,8 @@ public class Robot extends TimedRobot {
 
 			if(angleSensor.getVoltage() < 2.2){
 				manipulator.stopRaise();
+				controller.setRumble(RumbleType.kLeftRumble, 1);
+				controller.setRumble(RumbleType.kRightRumble, 1);
 			} else {
 				manipulator.lower();
 			}
@@ -127,7 +132,7 @@ public class Robot extends TimedRobot {
 
 	}
 	public void doubleSolenoidControl() {
-		/*
+		
 		if(button5.get()) {
 			Front.set(DoubleSolenoid.Value.kForward);
 		}
@@ -140,7 +145,7 @@ public class Robot extends TimedRobot {
 		else {
 			Back.set(DoubleSolenoid.Value.kReverse);
 		}
-		*/
+		
 	}
 		
 }
