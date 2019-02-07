@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
@@ -26,9 +27,6 @@ import edu.wpi.first.cameraserver.*;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-
-
- 
 public class Robot extends TimedRobot {
 
 	public Robot() {
@@ -53,7 +51,7 @@ public class Robot extends TimedRobot {
 			button8 = new JoystickButton(controller, 8);
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
-	
+	AnalogInput angleSensor = new AnalogInput(0);
 	
 	DoubleSolenoid Front;
 	DoubleSolenoid Back;
@@ -89,7 +87,7 @@ public class Robot extends TimedRobot {
 		teleopManipulatorPeriodic();
 		teleopDrivePeriodic();
 		doubleSolenoidControl();
-		
+		System.out.println("potentiometer: " + angleSensor.getVoltage());
 	}
 	private void teleopDrivePeriodic() {
 		driveTrain.arcadeDrive(-controller.getRawAxis(1), controller.getRawAxis(0));
@@ -114,11 +112,21 @@ public class Robot extends TimedRobot {
 		
 		
 		if (button3.get()) {
-			manipulator.raise();
+
+			if(angleSensor.getVoltage() > 4.2){
+				manipulator.stopRaise();
+			} else {
+				manipulator.raise();
+			}
 			
 		}
 		else if (button4.get()) {
-			manipulator.lower();
+
+			if(angleSensor.getVoltage() < 2.2){
+				manipulator.stopRaise();
+			} else {
+				manipulator.lower();
+			}
 		
 		}
 		else{
