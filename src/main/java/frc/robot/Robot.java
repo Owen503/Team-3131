@@ -125,13 +125,12 @@ public class Robot extends TimedRobot {
 
 		
 		}
-		else{
+		else {
 			manipulator.stopRaise();
 		//I'm... OUT!
-			
 		}
+		
 	}
-
 	public void testPeriodic() {
 
 	}
@@ -149,7 +148,7 @@ public class Robot extends TimedRobot {
 		else {
 			Back.set(DoubleSolenoid.Value.kReverse);
 		}
-		
+		  
 	}
 		
 }
