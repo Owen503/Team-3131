@@ -53,7 +53,9 @@ public class Robot extends TimedRobot {
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
-	
+	double y1;
+	double y2;
+
 	DoubleSolenoid Front;
 	DoubleSolenoid Back;
 	Compressor c;
@@ -91,6 +93,8 @@ public class Robot extends TimedRobot {
 		System.out.println("potentiometer: " + angleSensor.getVoltage());
 	}
 	private void teleopDrivePeriodic() {
+		y1 = Math.pow(controller.getRawAxis(1),3);
+		y2 = Math.pow(controller.getRawAxis(0),3);
 		driveTrain.arcadeDrive(-controller.getRawAxis(1), controller.getRawAxis(0));
 		
 	}
@@ -116,8 +120,6 @@ public class Robot extends TimedRobot {
 
 			if(angleSensor.getVoltage() > 4.2){
 				manipulator.stopRaise();
-				controller.setRumble(RumbleType.kLeftRumble, 1);
-				controller.setRumble(RumbleType.kRightRumble, 1);
 			} else {
 				manipulator.raise();
 			}
@@ -127,8 +129,6 @@ public class Robot extends TimedRobot {
 
 			if(angleSensor.getVoltage() < 2.2){
 				manipulator.stopRaise();
-				controller.setRumble(RumbleType.kLeftRumble, 1);
-				controller.setRumble(RumbleType.kRightRumble, 1);
 			} else {
 				manipulator.lower();
 			}
@@ -145,13 +145,9 @@ public class Robot extends TimedRobot {
 
 	}
 	public void doubleSolenoidControl() {
-<<<<<<< HEAD
 		if (Front == null || Back == null) {
 			return;
 		}
-=======
-		
->>>>>>> d17e6f7c22efbb5efa0aa03cbda7c99ffb3d4b34
 		if(button5.get()) {
 			Front.set(DoubleSolenoid.Value.kForward);
 		}
