@@ -32,12 +32,8 @@ public class Robot extends TimedRobot {
 
 	public Robot() {
 		try {
-			front = new DoubleSolenoid(1, 0);
-			back = new DoubleSolenoid(3, 2);
-			out = new DoubleSolenoid(4, 5);
-			in = new DoubleSolenoid(4, 5);
-			push1 = new DoubleSolenoid(6, 7);
-			push2 = new DoubleSolenoid(6, 7);
+			Front = new DoubleSolenoid(1, 0);
+			Back = new DoubleSolenoid(3, 2);
 			c = new Compressor(0);
 		} catch (Exception e) {
 			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
@@ -53,21 +49,15 @@ public class Robot extends TimedRobot {
 			button5 = new JoystickButton(controller, 5),
 			button6 = new JoystickButton(controller, 6),
 			button7 = new JoystickButton(controller, 7),
-			button8 = new JoystickButton(controller, 8),
-			button9 = new JoystickButton(controller, 9);
+			button8 = new JoystickButton(controller, 8);
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
 	double y1;
 	double y2;
 
-	DoubleSolenoid front;
-	DoubleSolenoid back;
-	DoubleSolenoid out;
-	DoubleSolenoid in;
-	DoubleSolenoid push1;
-	DoubleSolenoid push2;
-
+	DoubleSolenoid Front;
+	DoubleSolenoid Back;
 	Compressor c;
 
 	/* Init functions are run ONCE when the robot is first started up and should be
@@ -164,36 +154,22 @@ public class Robot extends TimedRobot {
 
 	}
 	public void doubleSolenoidControl() {
-		if (front == null || back == null) {
+		if (Front == null || Back == null) {
 			return;
 		}
 		if(button5.get()) {
-			front.set(DoubleSolenoid.Value.kForward);
+			Front.set(DoubleSolenoid.Value.kForward);
 		}
 		else { 
-			front.set(DoubleSolenoid.Value.kReverse);
+			Front.set(DoubleSolenoid.Value.kReverse);
 		}
 		if(button6.get()) {
-			back.set(DoubleSolenoid.Value.kForward);
+			Back.set(DoubleSolenoid.Value.kForward);
 		}
 		else {
-			back.set(DoubleSolenoid.Value.kReverse);
-		}
-		if(button7.get()) {
-			out.set(DoubleSolenoid.Value.kForward);
-		}
-		if(button8.get()) {
-			in.set(DoubleSolenoid.Value.kReverse);
-		}
-		if(button9.get()) {
-			push1.set(DoubleSolenoid.Value.kForward);
-			push2.set(DoubleSolenoid.Value.kForward);
-		}
-		else {
-			push1.set(DoubleSolenoid.Value.kReverse);
-			push2.set(DoubleSolenoid.Value.kReverse);
+			Back.set(DoubleSolenoid.Value.kReverse);
 		}
 
+	}
 		
-}
 }
