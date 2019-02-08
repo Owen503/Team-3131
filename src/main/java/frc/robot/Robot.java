@@ -158,11 +158,7 @@ public class Robot extends TimedRobot {
 		else {
 			Back.set(DoubleSolenoid.Value.kReverse);
 		}
-<<<<<<< HEAD
-		  
-=======
 		
->>>>>>> a685d6dfdb205e45640294553e720a6291228131
 	}
 		
 }
