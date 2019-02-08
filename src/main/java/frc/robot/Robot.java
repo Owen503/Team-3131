@@ -53,30 +53,19 @@ public class Robot extends TimedRobot {
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
-<<<<<<< HEAD
-	
-	DoubleSolenoid Front = new DoubleSolenoid(1, 0);
-	DoubleSolenoid Back = new DoubleSolenoid(3, 2);
-	Compressor c = new Compressor(0);
-=======
 	double y1;
 	double y2;
 
 	DoubleSolenoid Front;
 	DoubleSolenoid Back;
 	Compressor c;
->>>>>>> d8d72f35c8588ef95519116eeb2cc20d90b0f5cd
 
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
 	public void robotInit() {
-<<<<<<< HEAD
-		c.setClosedLoopControl(true);
-=======
 		if (c != null) {
 			c.setClosedLoopControl(true);
 		}
->>>>>>> d8d72f35c8588ef95519116eeb2cc20d90b0f5cd
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 	
@@ -157,7 +146,7 @@ public class Robot extends TimedRobot {
 		else {
 			manipulator.stopRaise();
 		//I'm... OUT!
-		}
+		};}
 		
 	}
 	public void testPeriodic() {
