@@ -34,6 +34,8 @@ public class Robot extends TimedRobot {
 		try {
 			Front = new DoubleSolenoid(1, 0);
 			Back = new DoubleSolenoid(3, 2);
+			push = new DoubleSolenoid(5, 4);
+			open = new DoubleSolenoid(7, 6);
 			c = new Compressor(0);
 		} catch (Exception e) {
 			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
@@ -49,7 +51,8 @@ public class Robot extends TimedRobot {
 			button5 = new JoystickButton(controller, 5),
 			button6 = new JoystickButton(controller, 6),
 			button7 = new JoystickButton(controller, 7),
-			button8 = new JoystickButton(controller, 8);
+			button8 = new JoystickButton(controller, 8),
+			button9 = new JoystickButton(controller, 9);
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
@@ -58,6 +61,8 @@ public class Robot extends TimedRobot {
 
 	DoubleSolenoid Front;
 	DoubleSolenoid Back;
+	DoubleSolenoid push;
+	DoubleSolenoid open;
 	Compressor c;
 
 	/* Init functions are run ONCE when the robot is first started up and should be
@@ -169,7 +174,18 @@ public class Robot extends TimedRobot {
 		else {
 			Back.set(DoubleSolenoid.Value.kReverse);
 		}
-
+		if(button7.get()) {
+			push.set(DoubleSolenoid.Value.kForward);
+		}
+		if(button8.get()) {
+			push.set(DoubleSolenoid.Value.kReverse);
+		}
+		if(button9.get()) {
+			open.set(DoubleSolenoid.Value.kReverse);
 	}
-		
+		else{
+			open.set(DoubleSolenoid.Value.kForward);
+		}
+	
+}
 }
