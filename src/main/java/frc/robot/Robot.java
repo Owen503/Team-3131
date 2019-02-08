@@ -34,6 +34,11 @@ public class Robot extends TimedRobot {
 		try {
 			Front = new DoubleSolenoid(1, 0);
 			Back = new DoubleSolenoid(3, 2);
+<<<<<<< HEAD
+=======
+			push = new DoubleSolenoid(5, 4);
+			open = new DoubleSolenoid(7, 6);
+>>>>>>> 09e6fa93e9d46ce0b54bebbbb7a7c3f96e6291c6
 			c = new Compressor(0);
 		} catch (Exception e) {
 			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
@@ -58,6 +63,11 @@ public class Robot extends TimedRobot {
 
 	DoubleSolenoid Front;
 	DoubleSolenoid Back;
+<<<<<<< HEAD
+=======
+	DoubleSolenoid push;
+	DoubleSolenoid open;
+>>>>>>> 09e6fa93e9d46ce0b54bebbbb7a7c3f96e6291c6
 	Compressor c;
 
 	/* Init functions are run ONCE when the robot is first started up and should be
@@ -148,7 +158,11 @@ public class Robot extends TimedRobot {
 		if (Front == null || Back == null) {
 			return;
 		}
+<<<<<<< HEAD
  		if(button5.get()) {
+=======
+		if(button5.get()) {
+>>>>>>> 09e6fa93e9d46ce0b54bebbbb7a7c3f96e6291c6
 			Front.set(DoubleSolenoid.Value.kForward);
 		}
 		else { 
@@ -159,9 +173,27 @@ public class Robot extends TimedRobot {
 		}
 		else {
 			Back.set(DoubleSolenoid.Value.kReverse);
+<<<<<<< HEAD
 		}
 
 		
 	}
 		
+=======
+		}
+		if(button7.get()) {
+			push.set(DoubleSolenoid.Value.kForward);
+		}
+		if(button8.get()) {
+			push.set(DoubleSolenoid.Value.kReverse);
+		}
+		if(button9.get()) {
+			open.set(DoubleSolenoid.Value.kForward);
+	}
+		else{
+			open.set(DoubleSolenoid.Value.kReverse);
+		}
+	
+}
+>>>>>>> 09e6fa93e9d46ce0b54bebbbb7a7c3f96e6291c6
 }
