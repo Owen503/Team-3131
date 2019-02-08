@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -29,6 +30,8 @@ import edu.wpi.first.cameraserver.*;
  */
 public class Robot extends TimedRobot {
 
+	private static final DoubleSolenoid Front = null;
+	private static final DoubleSolenoid Back = null;
 	Joystick controller = new Joystick(0);
 	Button button1 = new JoystickButton(controller, 1),
 			button2 = new JoystickButton(controller, 2),
@@ -77,14 +80,17 @@ public class Robot extends TimedRobot {
 		System.out.println("potentiometer: " + angleSensor.getVoltage());
 	}
 	private void teleopDrivePeriodic() {
-		driveTrain.arcadeDrive(-controller.getRawAxis(1), controller.getRawAxis(0));
+		driveTrain.arcadeDrive(
+			Math.pow(-controller.getRawAxis(1),3),
+			Math.pow(controller.getRawAxis(0),3)
+			);
 		
 	}
 
 	private void teleopManipulatorPeriodic() {
 		if(button1.get() && button2.get()){
-			//controller.setRumble(, 1);
-			
+			controller.setRumble(RumbleType.kLeftRumble, 1);
+			controller.setRumble(RumbleType.kRightRumble, 1);
 		}
 		if(button1.get() && !manipulator.containsBall()){
 			manipulator.intake();
@@ -110,6 +116,8 @@ public class Robot extends TimedRobot {
 
 			if(angleSensor.getVoltage() > 4.2){
 				manipulator.stopRaise();
+				controller.setRumble(RumbleType.kLeftRumble, 1);
+				controller.setRumble(RumbleType.kRightRumble, 1);
 			} else {
 				manipulator.raise();
 			}
@@ -119,6 +127,8 @@ public class Robot extends TimedRobot {
 
 			if(angleSensor.getVoltage() < 2.2){
 				manipulator.stopRaise();
+				controller.setRumble(RumbleType.kLeftRumble, 1);
+				controller.setRumble(RumbleType.kRightRumble, 1);
 			} else {
 				manipulator.lower();
 			}
@@ -148,7 +158,11 @@ public class Robot extends TimedRobot {
 		else {
 			Back.set(DoubleSolenoid.Value.kReverse);
 		}
+<<<<<<< HEAD
 		  
+=======
+		
+>>>>>>> a685d6dfdb205e45640294553e720a6291228131
 	}
 		
 }
