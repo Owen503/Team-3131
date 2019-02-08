@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-
+//I'M IN!!!!
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -32,13 +32,10 @@ public class Robot extends TimedRobot {
 
 	public Robot() {
 		try {
-			Front = new DoubleSolenoid(1, 0);
-			Back = new DoubleSolenoid(3, 2);
-<<<<<<< HEAD
-=======
+			front = new DoubleSolenoid(1, 0);
+			back = new DoubleSolenoid(3, 2);
 			push = new DoubleSolenoid(5, 4);
 			open = new DoubleSolenoid(7, 6);
->>>>>>> 09e6fa93e9d46ce0b54bebbbb7a7c3f96e6291c6
 			c = new Compressor(0);
 		} catch (Exception e) {
 			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
@@ -54,22 +51,19 @@ public class Robot extends TimedRobot {
 			button5 = new JoystickButton(controller, 5),
 			button6 = new JoystickButton(controller, 6),
 			button7 = new JoystickButton(controller, 7),
-			button8 = new JoystickButton(controller, 8);
+			button8 = new JoystickButton(controller, 8),
+			button9 = new JoystickButton(controller, 9);
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
-	double y1;
-	double y2;
-
-	DoubleSolenoid Front;
-	DoubleSolenoid Back;
-<<<<<<< HEAD
-=======
+	
+	DoubleSolenoid front;
+	DoubleSolenoid back;
 	DoubleSolenoid push;
 	DoubleSolenoid open;
->>>>>>> 09e6fa93e9d46ce0b54bebbbb7a7c3f96e6291c6
 	Compressor c;
-
+	double y1;
+	double y2;
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
 	public void robotInit() {
@@ -147,7 +141,6 @@ public class Robot extends TimedRobot {
 		else{
 			manipulator.stopRaise();
 		//I'm... OUT!
-			
 		}
 	}
 
@@ -155,31 +148,20 @@ public class Robot extends TimedRobot {
 
 	}
 	public void doubleSolenoidControl() {
-		if (Front == null || Back == null) {
+		if (front == null || back == null) {
 			return;
 		}
-<<<<<<< HEAD
- 		if(button5.get()) {
-=======
 		if(button5.get()) {
->>>>>>> 09e6fa93e9d46ce0b54bebbbb7a7c3f96e6291c6
-			Front.set(DoubleSolenoid.Value.kForward);
+			front.set(DoubleSolenoid.Value.kForward);
 		}
 		else { 
-			Front.set(DoubleSolenoid.Value.kReverse);
+			front.set(DoubleSolenoid.Value.kReverse);
 		}
 		if(button6.get()) {
-			Back.set(DoubleSolenoid.Value.kForward);
+			back.set(DoubleSolenoid.Value.kForward);
 		}
 		else {
-			Back.set(DoubleSolenoid.Value.kReverse);
-<<<<<<< HEAD
-		}
-
-		
-	}
-		
-=======
+			back.set(DoubleSolenoid.Value.kReverse);
 		}
 		if(button7.get()) {
 			push.set(DoubleSolenoid.Value.kForward);
@@ -195,5 +177,4 @@ public class Robot extends TimedRobot {
 		}
 	
 }
->>>>>>> 09e6fa93e9d46ce0b54bebbbb7a7c3f96e6291c6
 }
