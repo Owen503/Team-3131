@@ -30,6 +30,8 @@ import edu.wpi.first.cameraserver.*;
  */
 public class Robot extends TimedRobot {
 
+	private static final DoubleSolenoid Front = null;
+	private static final DoubleSolenoid Back = null;
 	Joystick controller = new Joystick(0);
 	Button button1 = new JoystickButton(controller, 1),
 			button2 = new JoystickButton(controller, 2),
