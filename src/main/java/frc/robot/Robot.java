@@ -30,6 +30,7 @@ import edu.wpi.first.cameraserver.*;
  */
 public class Robot extends TimedRobot {
 
+<<<<<<< HEAD
 	public Robot() {
 		try {
 			Front = new DoubleSolenoid(1, 0);
@@ -41,6 +42,10 @@ public class Robot extends TimedRobot {
 		}
 	}
 
+=======
+	private static final DoubleSolenoid Front = null;
+	private static final DoubleSolenoid Back = null;
+>>>>>>> a685d6dfdb205e45640294553e720a6291228131
 	Joystick controller = new Joystick(0);
 	Button button1 = new JoystickButton(controller, 1),
 			button2 = new JoystickButton(controller, 2),
@@ -93,9 +98,16 @@ public class Robot extends TimedRobot {
 		System.out.println("potentiometer: " + angleSensor.getVoltage());
 	}
 	private void teleopDrivePeriodic() {
+<<<<<<< HEAD
 		y1 = Math.pow(controller.getRawAxis(1),3);
 		y2 = Math.pow(controller.getRawAxis(0),3);
 		driveTrain.arcadeDrive(-controller.getRawAxis(1), controller.getRawAxis(0));
+=======
+		driveTrain.arcadeDrive(
+			Math.pow(-controller.getRawAxis(1),3),
+			Math.pow(controller.getRawAxis(0),3)
+			);
+>>>>>>> a685d6dfdb205e45640294553e720a6291228131
 		
 	}
 
