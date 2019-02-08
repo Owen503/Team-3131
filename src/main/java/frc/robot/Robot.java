@@ -30,8 +30,17 @@ import edu.wpi.first.cameraserver.*;
  */
 public class Robot extends TimedRobot {
 
-	private static final DoubleSolenoid Front = null;
-	private static final DoubleSolenoid Back = null;
+	public Robot() {
+		try {
+			Front = new DoubleSolenoid(1, 0);
+			Back = new DoubleSolenoid(3, 2);
+			c = new Compressor(0);
+		} catch (Exception e) {
+			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
+			System.out.print(e.toString());
+		}
+	}
+
 	Joystick controller = new Joystick(0);
 	Button button1 = new JoystickButton(controller, 1),
 			button2 = new JoystickButton(controller, 2),
@@ -44,15 +53,30 @@ public class Robot extends TimedRobot {
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
+<<<<<<< HEAD
 	
 	DoubleSolenoid Front = new DoubleSolenoid(1, 0);
 	DoubleSolenoid Back = new DoubleSolenoid(3, 2);
 	Compressor c = new Compressor(0);
+=======
+	double y1;
+	double y2;
+
+	DoubleSolenoid Front;
+	DoubleSolenoid Back;
+	Compressor c;
+>>>>>>> d8d72f35c8588ef95519116eeb2cc20d90b0f5cd
 
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
 	public void robotInit() {
+<<<<<<< HEAD
 		c.setClosedLoopControl(true);
+=======
+		if (c != null) {
+			c.setClosedLoopControl(true);
+		}
+>>>>>>> d8d72f35c8588ef95519116eeb2cc20d90b0f5cd
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 	
@@ -80,10 +104,9 @@ public class Robot extends TimedRobot {
 		System.out.println("potentiometer: " + angleSensor.getVoltage());
 	}
 	private void teleopDrivePeriodic() {
-		driveTrain.arcadeDrive(
-			Math.pow(-controller.getRawAxis(1),3),
-			Math.pow(controller.getRawAxis(0),3)
-			);
+		y1 = Math.pow(controller.getRawAxis(1),3);
+		y2 = Math.pow(controller.getRawAxis(0),3);
+		driveTrain.arcadeDrive(-controller.getRawAxis(1), controller.getRawAxis(0));
 		
 	}
 
@@ -116,8 +139,6 @@ public class Robot extends TimedRobot {
 
 			if(angleSensor.getVoltage() > 4.2){
 				manipulator.stopRaise();
-				controller.setRumble(RumbleType.kLeftRumble, 1);
-				controller.setRumble(RumbleType.kRightRumble, 1);
 			} else {
 				manipulator.raise();
 			}
@@ -127,8 +148,6 @@ public class Robot extends TimedRobot {
 
 			if(angleSensor.getVoltage() < 2.2){
 				manipulator.stopRaise();
-				controller.setRumble(RumbleType.kLeftRumble, 1);
-				controller.setRumble(RumbleType.kRightRumble, 1);
 			} else {
 				manipulator.lower();
 			}
@@ -145,7 +164,9 @@ public class Robot extends TimedRobot {
 
 	}
 	public void doubleSolenoidControl() {
-		
+		if (Front == null || Back == null) {
+			return;
+		}
 		if(button5.get()) {
 			Front.set(DoubleSolenoid.Value.kForward);
 		}
