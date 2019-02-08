@@ -181,10 +181,10 @@ public class Robot extends TimedRobot {
 			push.set(DoubleSolenoid.Value.kReverse);
 		}
 		if(button9.get()) {
-			open.set(DoubleSolenoid.Value.kReverse);
+			open.set(DoubleSolenoid.Value.kForward);
 	}
 		else{
-			open.set(DoubleSolenoid.Value.kForward);
+			open.set(DoubleSolenoid.Value.kReverse);
 		}
 	
 }
