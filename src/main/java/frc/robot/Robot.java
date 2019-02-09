@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
 
 	public Robot() {
 		try {
-			//front = new DoubleSolenoid(1, 0);
+			front = new DoubleSolenoid(1, 0);
 			back = new DoubleSolenoid(3, 2);
 			push = new DoubleSolenoid(5, 4);
 			open = new DoubleSolenoid(7, 6);
@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
 	
-	//DoubleSolenoid front;
+	DoubleSolenoid front;
 	DoubleSolenoid back;
 	DoubleSolenoid push;
 	DoubleSolenoid open;
@@ -94,9 +94,9 @@ public class Robot extends TimedRobot {
 		
 	}
 	public void teleopPeriodic() {
-	//	teleopManipulatorPeriodic();
+		teleopManipulatorPeriodic();
 		teleopDrivePeriodic();
-	//	doubleSolenoidControl();
+		doubleSolenoidControl();
 		System.out.println("potentiometer: " + angleSensor.getVoltage());
 	}
 	private void teleopDrivePeriodic() {
@@ -137,7 +137,7 @@ public class Robot extends TimedRobot {
 			} else {
 				manipulator.raise();
 			}
-			0
+			
 		}
 		else if (button4.get()) {
 
@@ -158,7 +158,8 @@ public class Robot extends TimedRobot {
 
 	}
 	public void doubleSolenoidControl() {
-	/*	if (front == null || back == null) {
+	
+		if (front == null || back == null) {
 			return;
 		}
 		if(button6.get()) {
@@ -166,7 +167,7 @@ public class Robot extends TimedRobot {
 		}
 		else { 
 			front.set(DoubleSolenoid.Value.kReverse);
-		}*/
+		}
 		if(button5.get()) {
 			back.set(DoubleSolenoid.Value.kForward);
 		}
