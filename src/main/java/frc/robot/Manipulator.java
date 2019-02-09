@@ -8,7 +8,6 @@ public class Manipulator {
 	Talon leftManip = new Talon(2);
 	Talon rightManip = new Talon(3);
 	Talon liftMotor = new Talon(4);
-	double speed = 0.6;
 	
 	public void intake() {
 		leftManip.set(-0.4);
