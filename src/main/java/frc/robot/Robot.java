@@ -32,9 +32,9 @@ public class Robot extends TimedRobot {
 		try {
 			front = new DoubleSolenoid(1, 0);
 			back = new DoubleSolenoid(3, 2);
-			push = new DoubleSolenoid(5, 4);
-			eject = new DoubleSolenoid(7, 6);
-			c = new Compressor(0);
+			clothesPinExtender = new DoubleSolenoid(5, 4);
+			clothesPinOpener = new DoubleSolenoid(7, 6);
+			compressor = new Compressor(0);
 		} catch (Exception e) {
 			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
 			System.out.print(e.toString());
@@ -42,31 +42,29 @@ public class Robot extends TimedRobot {
 	}
 
 	Joystick controller = new Joystick(0);
-	Button button1 = new JoystickButton(controller, 1),
-			button2 = new JoystickButton(controller, 2),
-			button3 = new JoystickButton(controller, 3),
-			button4 = new JoystickButton(controller, 4),
-			button5 = new JoystickButton(controller, 5),
-			button6 = new JoystickButton(controller, 6),
-			button7 = new JoystickButton(controller, 7),
-			button8 = new JoystickButton(controller, 8),
-			button9 = new JoystickButton(controller, 9);
+	Button aButton = new JoystickButton(controller, 1),
+			bButton = new JoystickButton(controller, 2),
+			xButton = new JoystickButton(controller, 3),
+			yButton = new JoystickButton(controller, 4),
+			leftBumper = new JoystickButton(controller, 5),
+			rightBumper = new JoystickButton(controller, 6),
+			backButton = new JoystickButton(controller, 7),
+			startButton = new JoystickButton(controller, 8);
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
 	boolean autoRaiseToMiddle = false;
 	DoubleSolenoid front;
 	DoubleSolenoid back;
-	DoubleSolenoid push;
-	DoubleSolenoid eject;
-	Compressor c;
-	double y1;
-	double y2;
+	DoubleSolenoid clothesPinExtender;
+	DoubleSolenoid clothesPinOpener;
+	Compressor compressor;
+
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
 	public void robotInit() {
-		if (c != null) {
-			c.setClosedLoopControl(true);
+		if (compressor != null) {
+			compressor.setClosedLoopControl(true);
 		}
 		CameraServer.getInstance().startAutomaticCapture();
 	}
@@ -88,12 +86,14 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		
 	}
+
 	public void teleopPeriodic() {
 		teleopManipulatorPeriodic();
 		teleopDrivePeriodic();
 		doubleSolenoidControl();
 		System.out.println("potentiometer: " + angleSensor.getVoltage());
 	}
+
 	private void teleopDrivePeriodic() {
 		/*
 		driveTrain.arcadeDrive(
@@ -116,15 +116,18 @@ public class Robot extends TimedRobot {
 	final int DPAD_LEFT = 270;
 	
 	private void teleopManipulatorPeriodic() {
-		if(button1.get() && button2.get()){
+		if(aButton.get() && bButton.get()){
 			controller.setRumble(RumbleType.kLeftRumble, 1);
 			controller.setRumble(RumbleType.kRightRumble, 1);
+		} else {
+			controller.setRumble(RumbleType.kLeftRumble, 0);
+			controller.setRumble(RumbleType.kRightRumble, 0);
 		}
-		if(button1.get() && !manipulator.containsBall()){
+
+		if(aButton.get() && !manipulator.containsBall()) {
 			manipulator.intake();
-			
 		}
-		else if(button2.get()) {
+		else if(bButton.get()) {
 			manipulator.release();
 			
 		} else {
@@ -151,7 +154,6 @@ public class Robot extends TimedRobot {
 		} else {
 			manipulator.stopRaise();
 		}
-		
 	}
 
 	public void testPeriodic() {
@@ -164,30 +166,30 @@ public class Robot extends TimedRobot {
 			return;
 		}
 
-		if(button6.get()) {
+		if(rightBumper.get()) {
 			front.set(DoubleSolenoid.Value.kForward);
 		} else { 
 			front.set(DoubleSolenoid.Value.kReverse);
 		}
 
-		if(button5.get()) {
+		if(leftBumper.get()) {
 			back.set(DoubleSolenoid.Value.kForward);
 		} else {
 			back.set(DoubleSolenoid.Value.kReverse);
 		}
 
-		if(button7.get()) {
-			push.set(DoubleSolenoid.Value.kForward);
+		if(backButton.get()) {
+			clothesPinExtender.set(DoubleSolenoid.Value.kForward);
 		}
 
-		if(button8.get()) {
-			push.set(DoubleSolenoid.Value.kReverse);
+		if(startButton.get()) {
+			clothesPinExtender.set(DoubleSolenoid.Value.kReverse);
 		}
 
-		if(button3.get()) {
-			eject.set(DoubleSolenoid.Value.kForward);
+		if(xButton.get()) {
+			clothesPinOpener.set(DoubleSolenoid.Value.kForward);
 		} else {
-			eject.set(DoubleSolenoid.Value.kReverse);
+			clothesPinOpener.set(DoubleSolenoid.Value.kReverse);
 		}
 	}
 }
