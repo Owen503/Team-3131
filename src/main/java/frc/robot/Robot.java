@@ -17,8 +17,6 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cameraserver.*;
 
 /**
@@ -35,9 +33,7 @@ public class Robot extends TimedRobot {
 			front = new DoubleSolenoid(1, 0);
 			back = new DoubleSolenoid(3, 2);
 			push = new DoubleSolenoid(5, 4);
-			open = new DoubleSolenoid(7, 6);
 			eject = new DoubleSolenoid(7, 6);
-	
 			c = new Compressor(0);
 		} catch (Exception e) {
 			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
@@ -62,7 +58,6 @@ public class Robot extends TimedRobot {
 	DoubleSolenoid front;
 	DoubleSolenoid back;
 	DoubleSolenoid push;
-	DoubleSolenoid open;
 	DoubleSolenoid eject;
 	Compressor c;
 	double y1;
@@ -181,10 +176,10 @@ public class Robot extends TimedRobot {
 			push.set(DoubleSolenoid.Value.kReverse);
 		}
 		if(button9.get()) {
-			open.set(DoubleSolenoid.Value.kForward);
+			eject.set(DoubleSolenoid.Value.kForward);
 		}
 		else{
-			open.set(DoubleSolenoid.Value.kReverse);
+			eject.set(DoubleSolenoid.Value.kForward);
 		}
 		if(button3.get()){
 			eject.set(DoubleSolenoid.Value.kForward);
@@ -192,6 +187,5 @@ public class Robot extends TimedRobot {
 		else{
 			eject.set(DoubleSolenoid.Value.kReverse);
 		}
-	
-}
+	}
 }
