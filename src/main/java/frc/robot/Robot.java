@@ -138,14 +138,12 @@ public class Robot extends TimedRobot {
 			autoRaiseToMiddle = true;
 		}
 
-		if(dpadValue == DPAD_UP || dpadValue == DPAD_DOWN){
-			autoRaiseToMiddle = false;
-		}
-
 		if (dpadValue == DPAD_UP && angleVoltage < 4.8) {
 			manipulator.raise();
+			autoRaiseToMiddle = false;
 		} else if (dpadValue == DPAD_DOWN && angleVoltage > 3.112){
 			manipulator.lower();
+			autoRaiseToMiddle = false;
 		} else if(autoRaiseToMiddle && angleVoltage > 4.44) {
 			manipulator.lower();
 		} else if (autoRaiseToMiddle && angleVoltage < 4.36) {
