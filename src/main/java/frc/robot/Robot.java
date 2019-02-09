@@ -95,12 +95,21 @@ public class Robot extends TimedRobot {
 		System.out.println("potentiometer: " + angleSensor.getVoltage());
 	}
 	private void teleopDrivePeriodic() {
-		y1 = Math.pow(controller.getRawAxis(1),3);
-		y2 = Math.pow(controller.getRawAxis(0),3);
-		driveTrain.arcadeDrive(-controller.getRawAxis(1), controller.getRawAxis(0));
-		
-	}
+		/*
+		driveTrain.arcadeDrive(
+			-Math.pow(controller.getRawAxis(1),3), 
+			Math.pow(controller.getRawAxis(0),3));
+		*/
 
+		double speed = 0.7;
+		if (controller.getRawAxis(2) == 1){
+			speed = 1;
+		}
+		driveTrain.arcadeDrive(
+			speed * -controller.getRawAxis(1), 
+			speed * controller.getRawAxis(0));
+		}
+		
 	private void teleopManipulatorPeriodic() {
 		if(button1.get() && button2.get()){
 			controller.setRumble(RumbleType.kLeftRumble, 1);
