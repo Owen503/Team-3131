@@ -36,6 +36,8 @@ public class Robot extends TimedRobot {
 			back = new DoubleSolenoid(3, 2);
 			push = new DoubleSolenoid(5, 4);
 			open = new DoubleSolenoid(7, 6);
+			ejectR = new DoubleSolenoid(9, 8);
+			ejectL = new DoubleSolenoid(9, 8);
 			c = new Compressor(0);
 		} catch (Exception e) {
 			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
@@ -61,6 +63,8 @@ public class Robot extends TimedRobot {
 	DoubleSolenoid back;
 	DoubleSolenoid push;
 	DoubleSolenoid open;
+	DoubleSolenoid ejectR;
+	DoubleSolenoid ejectL;
 	Compressor c;
 	double y1;
 	double y2;
@@ -118,9 +122,13 @@ public class Robot extends TimedRobot {
 		} else {
 			manipulator.stopIntake();
 		}
-		
-		
-		if (button3.get()) {
+		if (controller.getPOV() == 0){
+			manipulator.raise();
+		}
+		else if (controller.getPOV() == 180){
+			manipulator.lower();
+		}
+		/*if (button3.get()) {
 
 			if(angleSensor.getVoltage() > 4.2){
 				manipulator.stopRaise();
@@ -136,14 +144,14 @@ public class Robot extends TimedRobot {
 			} else {
 				manipulator.lower();
 			}
-		
+		*/
 		 }
-		else{
+		/*else{
 			manipulator.stopRaise();
 		//I'm... OUT!
 		}
 	}
-
+*/
 	public void testPeriodic() {
 
 	}
@@ -171,9 +179,17 @@ public class Robot extends TimedRobot {
 		}
 		if(button9.get()) {
 			open.set(DoubleSolenoid.Value.kForward);
-	}
+		}
 		else{
 			open.set(DoubleSolenoid.Value.kReverse);
+		}
+		if(button3.get()){
+			ejectR.set(DoubleSolenoid.Value.kForward);
+			ejectL.set(DoubleSolenoid.Value.kForward);
+		} 
+		else{
+			ejectR.set(DoubleSolenoid.Value.kReverse);
+			ejectL.set(DoubleSolenoid.Value.kReverse);
 		}
 	
 }
