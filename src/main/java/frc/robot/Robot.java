@@ -129,7 +129,7 @@ public class Robot extends TimedRobot {
 		double angleVoltage = angleSensor.getVoltage();
 		if (controller.getPOV() == 0 && angleVoltage < 4.75){
 			manipulator.raise();
-		} else if (controller.getPOV() == 180 && angleVoltage > 3.15){
+		} else if (controller.getPOV() == 180 && angleVoltage > 3.112){
 			manipulator.lower();
 		} else {
 			manipulator.stopRaise();
