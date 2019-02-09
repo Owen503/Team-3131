@@ -32,12 +32,12 @@ public class Robot extends TimedRobot {
 
 	public Robot() {
 		try {
-			front = new DoubleSolenoid(1, 0);
+			//front = new DoubleSolenoid(1, 0);
 			back = new DoubleSolenoid(3, 2);
 			push = new DoubleSolenoid(5, 4);
 			open = new DoubleSolenoid(7, 6);
-			ejectR = new DoubleSolenoid(9, 8);
-			ejectL = new DoubleSolenoid(9, 8);
+			eject = new DoubleSolenoid(7, 6);
+	
 			c = new Compressor(0);
 		} catch (Exception e) {
 			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
@@ -59,12 +59,11 @@ public class Robot extends TimedRobot {
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
 	
-	DoubleSolenoid front;
+	//DoubleSolenoid front;
 	DoubleSolenoid back;
 	DoubleSolenoid push;
 	DoubleSolenoid open;
-	DoubleSolenoid ejectR;
-	DoubleSolenoid ejectL;
+	DoubleSolenoid eject;
 	Compressor c;
 	double y1;
 	double y2;
@@ -95,9 +94,9 @@ public class Robot extends TimedRobot {
 		
 	}
 	public void teleopPeriodic() {
-		teleopManipulatorPeriodic();
+	//	teleopManipulatorPeriodic();
 		teleopDrivePeriodic();
-		doubleSolenoidControl();
+	//	doubleSolenoidControl();
 		System.out.println("potentiometer: " + angleSensor.getVoltage());
 	}
 	private void teleopDrivePeriodic() {
@@ -112,11 +111,11 @@ public class Robot extends TimedRobot {
 			controller.setRumble(RumbleType.kLeftRumble, 1);
 			controller.setRumble(RumbleType.kRightRumble, 1);
 		}
-		if(button1.get() && !manipulator.containsBall()){
+		if(button2.get() && !manipulator.containsBall()){
 			manipulator.intake();
 			
 		}
-		else if(button2.get()) {
+		else if(button1.get()) {
 			manipulator.release();
 			
 		} else {
@@ -128,6 +127,9 @@ public class Robot extends TimedRobot {
 		else if (controller.getPOV() == 180){
 			manipulator.lower();
 		}
+		else{
+			manipulator.stopRaise();
+		}
 		/*if (button3.get()) {
 
 			if(angleSensor.getVoltage() > 4.2){
@@ -135,7 +137,7 @@ public class Robot extends TimedRobot {
 			} else {
 				manipulator.raise();
 			}
-			
+			0
 		}
 		else if (button4.get()) {
 
@@ -156,16 +158,16 @@ public class Robot extends TimedRobot {
 
 	}
 	public void doubleSolenoidControl() {
-		if (front == null || back == null) {
+	/*	if (front == null || back == null) {
 			return;
 		}
-		if(button5.get()) {
+		if(button6.get()) {
 			front.set(DoubleSolenoid.Value.kForward);
 		}
 		else { 
 			front.set(DoubleSolenoid.Value.kReverse);
-		}
-		if(button6.get()) {
+		}*/
+		if(button5.get()) {
 			back.set(DoubleSolenoid.Value.kForward);
 		}
 		else {
@@ -184,12 +186,10 @@ public class Robot extends TimedRobot {
 			open.set(DoubleSolenoid.Value.kReverse);
 		}
 		if(button3.get()){
-			ejectR.set(DoubleSolenoid.Value.kForward);
-			ejectL.set(DoubleSolenoid.Value.kForward);
+			eject.set(DoubleSolenoid.Value.kForward);
 		} 
 		else{
-			ejectR.set(DoubleSolenoid.Value.kReverse);
-			ejectL.set(DoubleSolenoid.Value.kReverse);
+			eject.set(DoubleSolenoid.Value.kReverse);
 		}
 	
 }
