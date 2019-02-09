@@ -125,39 +125,18 @@ public class Robot extends TimedRobot {
 		} else {
 			manipulator.stopIntake();
 		}
-		if (controller.getPOV() == 0){
+
+		double angleVoltage = angleSensor.getVoltage();
+		if (controller.getPOV() == 0 && angleVoltage < 4.75){
 			manipulator.raise();
-		}
-		else if (controller.getPOV() == 180){
+		} else if (controller.getPOV() == 180 && angleVoltage > 3.15){
 			manipulator.lower();
-		}
-		else{
+		} else {
 			manipulator.stopRaise();
 		}
-		/*if (button3.get()) {
-
-			if(angleSensor.getVoltage() > 4.2){
-				manipulator.stopRaise();
-			} else {
-				manipulator.raise();
-			}
-			
-		}
-		else if (button4.get()) {
-
-			if(angleSensor.getVoltage() < 2.2){
-				manipulator.stopRaise();
-			} else {
-				manipulator.lower();
-			}
-		*/
-		 }
-		/*else{
-			manipulator.stopRaise();
-		//I'm... OUT!
-		}
+		
 	}
-*/
+
 	public void testPeriodic() {
 
 	}
