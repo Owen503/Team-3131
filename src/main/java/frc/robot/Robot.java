@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
-	
+	boolean autoRaiseToMiddle = false;
 	DoubleSolenoid front;
 	DoubleSolenoid back;
 	DoubleSolenoid push;
@@ -108,8 +108,13 @@ public class Robot extends TimedRobot {
 		driveTrain.arcadeDrive(
 			speed * -controller.getRawAxis(1), 
 			speed * controller.getRawAxis(0));
-		}
-		
+	}
+	
+	final int DPAD_UP = 0;
+	final int DPAD_DOWN = 180;
+	final int DPAD_RIGHT = 90;
+	final int DPAD_LEFT = 270;
+	
 	private void teleopManipulatorPeriodic() {
 		if(button1.get() && button2.get()){
 			controller.setRumble(RumbleType.kLeftRumble, 1);
@@ -128,14 +133,22 @@ public class Robot extends TimedRobot {
 
 		double angleVoltage = angleSensor.getVoltage();
 		int dpadValue = controller.getPOV();
-		
-		if (dpadValue == 0 && angleVoltage < 4.8) {
+
+		if(dpadValue == DPAD_RIGHT) {
+			autoRaiseToMiddle = true;
+		}
+
+		if(dpadValue == DPAD_UP || dpadValue == DPAD_DOWN){
+			autoRaiseToMiddle = false;
+		}
+
+		if (dpadValue == DPAD_UP && angleVoltage < 4.8) {
 			manipulator.raise();
-		} else if (dpadValue == 180 && angleVoltage > 3.112){
+		} else if (dpadValue == DPAD_DOWN && angleVoltage > 3.112){
 			manipulator.lower();
-		} else if(dpadValue == 90 && angleVoltage > 4.44) {
+		} else if(autoRaiseToMiddle && angleVoltage > 4.44) {
 			manipulator.lower();
-		} else if (dpadValue == 90 && angleVoltage < 4.36) {
+		} else if (autoRaiseToMiddle && angleVoltage < 4.36) {
 			manipulator.raise();
 		} else {
 			manipulator.stopRaise();
