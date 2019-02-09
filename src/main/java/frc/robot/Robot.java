@@ -129,7 +129,6 @@ public class Robot extends TimedRobot {
 		}
 		else if(bButton.get()) {
 			manipulator.release();
-			
 		} else {
 			manipulator.stopIntake();
 		}
@@ -180,16 +179,28 @@ public class Robot extends TimedRobot {
 
 		if(backButton.get()) {
 			clothesPinExtender.set(DoubleSolenoid.Value.kForward);
-		}
-
-		if(startButton.get()) {
+		} else if(startButton.get()) {
 			clothesPinExtender.set(DoubleSolenoid.Value.kReverse);
+		} else {
+			clothesPinExtender.set(DoubleSolenoid.Value.kOff);
 		}
 
-		if(xButton.get()) {
-			clothesPinOpener.set(DoubleSolenoid.Value.kForward);
-		} else {
-			clothesPinOpener.set(DoubleSolenoid.Value.kReverse);
+		if(!xButton.get()) {
+			clothesPinOpener.set(DoubleSolenoid.Value.kOff);
+		} else if(xButton.get()) {
+			if (previousPeriodXButton == false) {
+				nextClothesPinDirectionIsForward = !nextClothesPinDirectionIsForward;
+			}
+
+			if (nextClothesPinDirectionIsForward) {
+				clothesPinOpener.set(DoubleSolenoid.Value.kForward);
+			} else {
+				clothesPinOpener.set(DoubleSolenoid.Value.kReverse);
+			}
 		}
+		previousPeriodXButton = xButton.get();
 	}
+
+	boolean previousPeriodXButton = false;
+	boolean nextClothesPinDirectionIsForward = true;
 }
