@@ -157,39 +157,36 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 
 	}
+
 	public void doubleSolenoidControl() {
 	
 		if (front == null || back == null) {
 			return;
 		}
+
 		if(button6.get()) {
 			front.set(DoubleSolenoid.Value.kForward);
-		}
-		else { 
+		} else { 
 			front.set(DoubleSolenoid.Value.kReverse);
 		}
+
 		if(button5.get()) {
 			back.set(DoubleSolenoid.Value.kForward);
-		}
-		else {
+		} else {
 			back.set(DoubleSolenoid.Value.kReverse);
 		}
+
 		if(button7.get()) {
 			push.set(DoubleSolenoid.Value.kForward);
 		}
+
 		if(button8.get()) {
 			push.set(DoubleSolenoid.Value.kReverse);
 		}
-		if(button9.get()) {
+
+		if(button3.get()) {
 			eject.set(DoubleSolenoid.Value.kForward);
-		}
-		else{
-			eject.set(DoubleSolenoid.Value.kForward);
-		}
-		if(button3.get()){
-			eject.set(DoubleSolenoid.Value.kForward);
-		} 
-		else{
+		} else {
 			eject.set(DoubleSolenoid.Value.kReverse);
 		}
 	}
