@@ -115,11 +115,11 @@ public class Robot extends TimedRobot {
 			controller.setRumble(RumbleType.kLeftRumble, 1);
 			controller.setRumble(RumbleType.kRightRumble, 1);
 		}
-		if(button2.get() && !manipulator.containsBall()){
+		if(button1.get() && !manipulator.containsBall()){
 			manipulator.intake();
 			
 		}
-		else if(button1.get()) {
+		else if(button2.get()) {
 			manipulator.release();
 			
 		} else {
