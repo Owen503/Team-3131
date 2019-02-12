@@ -10,8 +10,8 @@ public class Manipulator {
 	Talon liftMotor = new Talon(4);
 	
 	public void intake() {
-		leftManip.set(-0.4);
-		rightManip.set(0.4);
+		leftManip.set(-0.5);
+		rightManip.set(0.5);
 	}
 	public void release() {
 		leftManip.set(1);

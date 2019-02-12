@@ -167,16 +167,20 @@ public class Robot extends TimedRobot {
 
 		if(rightBumper.get()) {
 			front.set(DoubleSolenoid.Value.kForward);
-		} else { 
+		} else if (!rightBumper.get()){ 
 			front.set(DoubleSolenoid.Value.kReverse);
+		} else {
+			front.set(DoubleSolenoid.Value.kOff);
 		}
 
 		if(leftBumper.get()) {
 			back.set(DoubleSolenoid.Value.kForward);
-		} else {
+		} else if (!leftBumper.get()){
 			back.set(DoubleSolenoid.Value.kReverse);
+		} else {
+			back.set(DoubleSolenoid.Value.kOff);
 		}
-
+		
 		if(backButton.get()) {
 			clothesPinExtender.set(DoubleSolenoid.Value.kForward);
 		} else if(startButton.get()) {
@@ -188,19 +192,19 @@ public class Robot extends TimedRobot {
 		if(!xButton.get()) {
 			clothesPinOpener.set(DoubleSolenoid.Value.kOff);
 		} else if(xButton.get()) {
-			if (previousPeriodXButton == false) {
-				nextClothesPinDirectionIsForward = !nextClothesPinDirectionIsForward;
+			if (previousPeriodButton == false) {
+				nextDirectionIsForward = !nextDirectionIsForward;
 			}
-
-			if (nextClothesPinDirectionIsForward) {
+			
+			if (nextDirectionIsForward) {
 				clothesPinOpener.set(DoubleSolenoid.Value.kForward);
 			} else {
 				clothesPinOpener.set(DoubleSolenoid.Value.kReverse);
 			}
 		}
-		previousPeriodXButton = xButton.get();
+		previousPeriodButton = xButton.get();
 	}
 
-	boolean previousPeriodXButton = false;
-	boolean nextClothesPinDirectionIsForward = true;
+	boolean previousPeriodButton = false;
+	boolean nextDirectionIsForward = true;
 }
