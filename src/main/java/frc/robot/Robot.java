@@ -169,17 +169,17 @@ public class Robot extends TimedRobot {
 			autoRaiseToMiddle = true;
 		}
 
-		if (dpadValue == DPAD_UP && angleVoltage < 4.8) {
+		if (dpadValue == DPAD_UP){ // && angleVoltage < 4.8) {
 			manipulator.raise();
 			autoRaiseToMiddle = false;
-		} else if (dpadValue == DPAD_DOWN && angleVoltage > 3.112){
+		} else if (dpadValue == DPAD_DOWN){ // && angleVoltage < 3.112){
 			manipulator.lower();
 			autoRaiseToMiddle = false;
-		} else if(autoRaiseToMiddle && angleVoltage > 4.44) {
+		}/* else if(autoRaiseToMiddle && angleVoltage > 4.44) {
 			manipulator.lower();
 		} else if (autoRaiseToMiddle && angleVoltage < 4.36) {
 			manipulator.raise();
-		} else {
+		}*/ else {
 			manipulator.stopRaise();
 		}
 	}
@@ -194,7 +194,7 @@ public class Robot extends TimedRobot {
 			return;
 		}
 
-		if(rightBumper.get()) {
+		/*if(rightBumper.get()) {
 			front.set(DoubleSolenoid.Value.kForward);
 		} else if (!rightBumper.get()){ 
 			front.set(DoubleSolenoid.Value.kReverse);
@@ -208,7 +208,7 @@ public class Robot extends TimedRobot {
 			back.set(DoubleSolenoid.Value.kReverse);
 		} else {
 			back.set(DoubleSolenoid.Value.kOff);
-		}
+		}*/
 		
 		if(backButton.get()) {
 			clothesPinExtender.set(DoubleSolenoid.Value.kForward);
