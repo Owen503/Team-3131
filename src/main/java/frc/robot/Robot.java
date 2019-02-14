@@ -68,7 +68,8 @@ public class Robot extends TimedRobot {
 		if (compressor != null) {
 			compressor.setClosedLoopControl(true);
 		}
-		CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture(0);
+		CameraServer.getInstance().startAutomaticCapture(1);
 	}
 	
 	/* Periodic functions are ran several times a second the entire time the robot
@@ -169,17 +170,22 @@ public class Robot extends TimedRobot {
 			autoRaiseToMiddle = true;
 		}
 
-		if (dpadValue == DPAD_UP){ // && angleVoltage < 4.8) {
+		double topAngleValue = 0.335;
+		double bottomAngleValue = 0.48;
+		double presetAngleValue = 0.360;
+		double presetAngleRange = .02;
+
+		if (dpadValue == DPAD_UP && angleVoltage > topAngleValue) {
 			manipulator.raise();
 			autoRaiseToMiddle = false;
-		} else if (dpadValue == DPAD_DOWN){ // && angleVoltage < 3.112){
+		} else if (dpadValue == DPAD_DOWN && angleVoltage < bottomAngleValue){
 			manipulator.lower();
 			autoRaiseToMiddle = false;
-		}/* else if(autoRaiseToMiddle && angleVoltage > 4.44) {
+		} else if(autoRaiseToMiddle && angleVoltage < presetAngleValue - presetAngleRange / 2) {
 			manipulator.lower();
-		} else if (autoRaiseToMiddle && angleVoltage < 4.36) {
+		} else if (autoRaiseToMiddle && angleVoltage > presetAngleValue + presetAngleRange / 2) {
 			manipulator.raise();
-		}*/ else {
+		} else {
 			manipulator.stopRaise();
 		}
 	}
