@@ -9,6 +9,8 @@ package frc.robot;
 //I'M IN!!!!
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
@@ -62,6 +64,7 @@ public class Robot extends TimedRobot {
 	UsbCamera frontCamera;
 	UsbCamera backCamera;
 	MjpegServer imageServer;
+	
 
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
@@ -168,12 +171,10 @@ public class Robot extends TimedRobot {
 			manipulator.stopRaise();
 		}
 
-		if (controller.getRawAxis(5) == 1){
+		if (controller.getRawAxis(5) > 0.5 && !manipulator.elevatorTopLimit() ){
 			manipulator.elevatorRaise();
-		} else if (controller.getRawAxis(5) == -1){
+		} else if (controller.getRawAxis(5) < -0.5 && !manipulator.elevatorBottomLimit() ){
 			manipulator.elevatorLower();
-		} else {
-			manipulator.elevatorStop();
 		}
 	}
 
