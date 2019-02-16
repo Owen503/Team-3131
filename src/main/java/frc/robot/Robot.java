@@ -117,7 +117,7 @@ public class Robot extends TimedRobot {
 	final int DPAD_RIGHT = 90;
 	final int DPAD_LEFT = 270;
 
-	/*public class ColorSensor {
+	public class ColorSensor {
 		private I2C sensor;
 		private ByteBuffer buf = ByteBuffer.allocate(5);
 		
@@ -142,7 +142,7 @@ public class Robot extends TimedRobot {
 			sensor.read(0x1a, 2, buf);
 			return buf.get(0);
 		}
-	}*/ 	
+	}	
 	
 	private void teleopManipulatorPeriodic() {
 		if(aButton.get() && bButton.get()){
@@ -175,9 +175,9 @@ public class Robot extends TimedRobot {
 		} else if (dpadValue == DPAD_DOWN && angleVoltage > 3.112){
 			manipulator.lower();
 			autoRaiseToMiddle = false;
-		} else if(autoRaiseToMiddle && angleVoltage > 4.44) {
+		} else if(autoRaiseToMiddle && angleVoltage > 4.45) {
 			manipulator.lower();
-		} else if (autoRaiseToMiddle && angleVoltage < 4.36) {
+		} else if (autoRaiseToMiddle && angleVoltage < 4.35) {
 			manipulator.raise();
 		} else {
 			manipulator.stopRaise();
