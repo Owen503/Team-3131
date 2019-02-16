@@ -68,7 +68,8 @@ public class Robot extends TimedRobot {
 		if (compressor != null) {
 			compressor.setClosedLoopControl(true);
 		}
-		CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture(0);
+		CameraServer.getInstance().startAutomaticCapture(1);
 	}
 	
 	/* Periodic functions are ran several times a second the entire time the robot
@@ -169,15 +170,21 @@ public class Robot extends TimedRobot {
 			autoRaiseToMiddle = true;
 		}
 
-		if (dpadValue == DPAD_UP && angleVoltage < 4.8) {
+		double topAngleValue = 0.335;
+		double bottomAngleValue = 0.48;
+		double presetAngleValue = 0.360;
+		double presetAngleRange = .02;
+
+		if (dpadValue == DPAD_UP && angleVoltage > topAngleValue) {
 			manipulator.raise();
 			autoRaiseToMiddle = false;
-		} else if (dpadValue == DPAD_DOWN && angleVoltage > 3.112){
+		} else if (dpadValue == DPAD_DOWN && angleVoltage < bottomAngleValue){
 			manipulator.lower();
 			autoRaiseToMiddle = false;
-		} else if(autoRaiseToMiddle && angleVoltage > 4.45) {
+
+		} else if(autoRaiseToMiddle && angleVoltage < presetAngleValue - presetAngleRange / 2) {
 			manipulator.lower();
-		} else if (autoRaiseToMiddle && angleVoltage < 4.35) {
+		} else if (autoRaiseToMiddle && angleVoltage > presetAngleValue + presetAngleRange / 2) { 
 			manipulator.raise();
 		} else {
 			manipulator.stopRaise();
@@ -194,18 +201,22 @@ public class Robot extends TimedRobot {
 			return;
 		}
 
-		if(rightBumper.get()) {
+		/*if(rightBumper.get()) {
 			front.set(DoubleSolenoid.Value.kForward);
-		} else { 
+		} else if (!rightBumper.get()){ 
 			front.set(DoubleSolenoid.Value.kReverse);
+		} else {
+			front.set(DoubleSolenoid.Value.kOff);
 		}
 
 		if(leftBumper.get()) {
 			back.set(DoubleSolenoid.Value.kForward);
-		} else {
+		} else if (!leftBumper.get()){
 			back.set(DoubleSolenoid.Value.kReverse);
-		}
-
+		} else {
+			back.set(DoubleSolenoid.Value.kOff);
+		}*/
+		
 		if(backButton.get()) {
 			clothesPinExtender.set(DoubleSolenoid.Value.kForward);
 		} else if(startButton.get()) {
@@ -217,19 +228,19 @@ public class Robot extends TimedRobot {
 		if(!xButton.get()) {
 			clothesPinOpener.set(DoubleSolenoid.Value.kOff);
 		} else if(xButton.get()) {
-			if (previousPeriodXButton == false) {
-				nextClothesPinDirectionIsForward = !nextClothesPinDirectionIsForward;
+			if (previousPeriodButton == false) {
+				nextDirectionIsForward = !nextDirectionIsForward;
 			}
-
-			if (nextClothesPinDirectionIsForward) {
+			
+			if (nextDirectionIsForward) {
 				clothesPinOpener.set(DoubleSolenoid.Value.kForward);
 			} else {
 				clothesPinOpener.set(DoubleSolenoid.Value.kReverse);
 			}
 		}
-		previousPeriodXButton = xButton.get();
+		previousPeriodButton = xButton.get();
 	}
 
-	boolean previousPeriodXButton = false;
-	boolean nextClothesPinDirectionIsForward = true;
+	boolean previousPeriodButton = false;
+	boolean nextDirectionIsForward = true;
 }
