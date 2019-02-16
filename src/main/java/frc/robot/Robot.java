@@ -34,10 +34,8 @@ public class Robot extends TimedRobot {
 
 	public Robot() {
 		try {
-			front = new DoubleSolenoid(1, 0);
-			back = new DoubleSolenoid(3, 2);
-			clothesPinExtender = new DoubleSolenoid(5, 4);
-			clothesPinOpener = new DoubleSolenoid(7, 6);
+			climbFront = new DoubleSolenoid(1, 0);
+			climbBack = new DoubleSolenoid(3, 2);
 			compressor = new Compressor(0);
 		} catch (Exception e) {
 			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
@@ -58,10 +56,8 @@ public class Robot extends TimedRobot {
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
 	boolean autoRaiseToMiddle = false;
-	DoubleSolenoid front;
-	DoubleSolenoid back;
-	DoubleSolenoid clothesPinExtender;
-	DoubleSolenoid clothesPinOpener;
+	DoubleSolenoid climbFront;
+	DoubleSolenoid climbBack;
 	Compressor compressor;
 	UsbCamera frontCamera;
 	UsbCamera backCamera;
@@ -186,45 +182,29 @@ public class Robot extends TimedRobot {
 
 	public void doubleSolenoidControl() {
 	
-		if (front == null || back == null) {
+		if (climbFront == null || climbBack == null) {
 			return;
 		}
-
-		/*if(rightBumper.get()) {
-			front.set(DoubleSolenoid.Value.kForward);
-		} else if (!rightBumper.get()){ 
-			front.set(DoubleSolenoid.Value.kReverse);
-		} else {
-			front.set(DoubleSolenoid.Value.kOff);
-		}
-
-		if(leftBumper.get()) {
-			back.set(DoubleSolenoid.Value.kForward);
-		} else if (!leftBumper.get()){
-			back.set(DoubleSolenoid.Value.kReverse);
-		} else {
-			back.set(DoubleSolenoid.Value.kOff);
-		}*/
 		
-		if(backButton.get()) {
-			clothesPinExtender.set(DoubleSolenoid.Value.kForward);
-		} else if(startButton.get()) {
-			clothesPinExtender.set(DoubleSolenoid.Value.kReverse);
+		if(leftBumper.get()) {
+			climbBack.set(DoubleSolenoid.Value.kForward);
+		} else if (!leftBumper.get()){
+			climbBack.set(DoubleSolenoid.Value.kReverse);
 		} else {
-			clothesPinExtender.set(DoubleSolenoid.Value.kOff);
+			climbBack.set(DoubleSolenoid.Value.kOff);
 		}
 
-		if(!xButton.get()) {
-			clothesPinOpener.set(DoubleSolenoid.Value.kOff);
-		} else if(xButton.get()) {
+		if(!rightBumper.get()) {
+			climbFront.set(DoubleSolenoid.Value.kOff);
+		} else  {
 			if (previousPeriodButton == false) {
 				nextDirectionIsForward = !nextDirectionIsForward;
 			}
 			
 			if (nextDirectionIsForward) {
-				clothesPinOpener.set(DoubleSolenoid.Value.kForward);
+				climbFront.set(DoubleSolenoid.Value.kForward);
 			} else {
-				clothesPinOpener.set(DoubleSolenoid.Value.kReverse);
+				climbFront.set(DoubleSolenoid.Value.kReverse);
 			}
 		}
 		previousPeriodButton = xButton.get();
