@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.*;
 import java.nio.ByteBuffer;
 import edu.wpi.first.wpilibj.I2C;
@@ -61,6 +63,9 @@ public class Robot extends TimedRobot {
 	DoubleSolenoid clothesPinExtender;
 	DoubleSolenoid clothesPinOpener;
 	Compressor compressor;
+	UsbCamera frontCamera;
+	UsbCamera backCamera;
+	MjpegServer imageServer;
 
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
@@ -68,8 +73,10 @@ public class Robot extends TimedRobot {
 		if (compressor != null) {
 			compressor.setClosedLoopControl(true);
 		}
-		CameraServer.getInstance().startAutomaticCapture(0);
-		CameraServer.getInstance().startAutomaticCapture(1);
+		frontCamera = new UsbCamera("Cam 0", 0);
+		backCamera = new UsbCamera("Cam 1", 1);
+		imageServer = CameraServer.getInstance().addServer("camera");
+		imageServer.setSource(frontCamera);
 	}
 	
 	/* Periodic functions are ran several times a second the entire time the robot
@@ -80,6 +87,7 @@ public class Robot extends TimedRobot {
 
 	public void autonomousInit() {
 		
+		imageServer.setSource(backCamera);
 	}
 
 	public void autonomousPeriodic() {
@@ -94,7 +102,7 @@ public class Robot extends TimedRobot {
 		teleopManipulatorPeriodic();
 		teleopDrivePeriodic();
 		doubleSolenoidControl();
-		System.out.println("potentiometer: " + angleSensor.getVoltage());
+		//System.out.println("potentiometer: " + angleSensor.getVoltage());
 	}
 
 	private void teleopDrivePeriodic() {
