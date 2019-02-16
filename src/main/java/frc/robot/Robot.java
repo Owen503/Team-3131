@@ -170,6 +170,14 @@ public class Robot extends TimedRobot {
 		} else {
 			manipulator.stopRaise();
 		}
+
+		if (controller.getRawAxis(5) == 1){
+			manipulator.elevatorRaise();
+		} else if (controller.getRawAxis(5) == -1){
+			manipulator.elevatorLower();
+		} else {
+			manipulator.elevatorStop();
+		}
 	}
 
 	public void testPeriodic() {
