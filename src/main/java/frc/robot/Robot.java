@@ -125,33 +125,6 @@ public class Robot extends TimedRobot {
 	final int DPAD_DOWN = 180;
 	final int DPAD_RIGHT = 90;
 	final int DPAD_LEFT = 270;
-
-	public class ColorSensor {
-		private I2C sensor;
-		private ByteBuffer buf = ByteBuffer.allocate(5);
-		
-		public ColorSensor(I2C.Port port) {
-			sensor = new I2C(port, 0x39); //port, I2c address    
-	
-			sensor.write(0x00, 0b00000011); //power on, color sensor on
-		}
-		
-		public int red() {
-			//reads the address 0x16, 2 bytes of data, gives it to the buffer
-			sensor.read(0x16, 3, buf);
-			return buf.get(0);
-		}
-		
-		public int green() {
-			sensor.read(0x18, 2, buf);
-			return buf.get(0);
-		}
-		
-		public int blue() {
-			sensor.read(0x1a, 2, buf);
-			return buf.get(0);
-		}
-	}	
 	
 	private void teleopManipulatorPeriodic() {
 		if(aButton.get() && bButton.get()){
