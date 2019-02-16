@@ -202,6 +202,7 @@ public class Robot extends TimedRobot {
 
 		if(!rightBumper.get()) {
 			climbBack.set(DoubleSolenoid.Value.kOff);
+			System.out.println("climbBack: Off");
 		} else  {
 			if (previousBackButton == false) {
 				nextDirectionIsForward = !nextDirectionIsForward;
@@ -209,8 +210,10 @@ public class Robot extends TimedRobot {
 			
 			if (nextDirectionIsForward) {
 				climbBack.set(DoubleSolenoid.Value.kForward);
+				System.out.println("climbFront: Forward");
 			} else {
 				climbBack.set(DoubleSolenoid.Value.kReverse);
+				System.out.println("climbFront: Reverse");
 			}
 		}
 		previousFrontButton = leftBumper.get();
