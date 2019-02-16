@@ -186,18 +186,10 @@ public class Robot extends TimedRobot {
 			return;
 		}
 		
-		if(leftBumper.get()) {
-			climbBack.set(DoubleSolenoid.Value.kForward);
-		} else if (!leftBumper.get()){
-			climbBack.set(DoubleSolenoid.Value.kReverse);
-		} else {
-			climbBack.set(DoubleSolenoid.Value.kOff);
-		}
-
-		if(!rightBumper.get()) {
+		if(!leftBumper.get()) {
 			climbFront.set(DoubleSolenoid.Value.kOff);
-		} else  {
-			if (previousPeriodButton == false) {
+		} else {
+			if (previousFrontButton == false) {
 				nextDirectionIsForward = !nextDirectionIsForward;
 			}
 			
@@ -207,9 +199,25 @@ public class Robot extends TimedRobot {
 				climbFront.set(DoubleSolenoid.Value.kReverse);
 			}
 		}
-		previousPeriodButton = xButton.get();
+
+		if(!rightBumper.get()) {
+			climbBack.set(DoubleSolenoid.Value.kOff);
+		} else  {
+			if (previousBackButton == false) {
+				nextDirectionIsForward = !nextDirectionIsForward;
+			}
+			
+			if (nextDirectionIsForward) {
+				climbBack.set(DoubleSolenoid.Value.kForward);
+			} else {
+				climbBack.set(DoubleSolenoid.Value.kReverse);
+			}
+		}
+		previousFrontButton = leftBumper.get();
+		previousBackButton = rightBumper.get();
 	}
 
-	boolean previousPeriodButton = false;
+	boolean previousBackButton = false;
+	boolean previousFrontButton = false;
 	boolean nextDirectionIsForward = true;
 }
