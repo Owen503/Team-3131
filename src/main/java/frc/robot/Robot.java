@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.*;
@@ -73,7 +74,6 @@ public class Robot extends TimedRobot {
 			compressor.setClosedLoopControl(true);
 		}
 		frontCamera = new UsbCamera("Cam 0", 0);
-		backCamera = new UsbCamera("Cam 1", 1);
 		imageServer = CameraServer.getInstance().addServer("camera");
 		imageServer.setSource(frontCamera);
 	}
@@ -177,7 +177,12 @@ public class Robot extends TimedRobot {
 			manipulator.elevatorLower();
 		}
 	}
-
+	
+	public void potentiometer(){
+		Shuffleboard.getTab("Potentiometer Value")
+			.add("Potentiometer" , angleSensor.getVoltage());
+	} 
+	
 	public void testPeriodic() {
 
 	}
@@ -222,4 +227,5 @@ public class Robot extends TimedRobot {
 	boolean previousBackButton = false;
 	boolean previousFrontButton = false;
 	boolean nextDirectionIsForward = true;
+	
 }
