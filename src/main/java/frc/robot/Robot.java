@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
 	/* Periodic functions are ran several times a second the entire time the robot
 	 * is enabled */
 	public void robotPeriodic() {
-		
+	
 	}
 
 	public void autonomousInit() {
@@ -100,6 +100,7 @@ public class Robot extends TimedRobot {
 		doubleSolenoidControl();
 		//Move line below to ShuffleBoard
 		//System.out.println("potentiometer: " + angleSensor.getVoltage());
+		
 	}
 
 	private void teleopDrivePeriodic() {
@@ -174,13 +175,6 @@ public class Robot extends TimedRobot {
 			manipulator.elevatorLower();
 		}
 	}
-	
-	public void shuffleboardDisplay(){
-		Shuffleboard.getTab("Potentiometer Value")
-			.add("Potentiometer" , angleSensor.getVoltage())
-			.withWidget(BuiltInWidgets.kNumberSlider)
-			.getEntry();
-	} 
 	
 	public void testPeriodic() {
 
