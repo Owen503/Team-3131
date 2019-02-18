@@ -6,10 +6,10 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+
 //I'M IN!!!!
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
@@ -37,8 +38,8 @@ public class Robot extends TimedRobot {
 
 	public Robot() {
 		try {
-			climbFront = new DoubleSolenoid(1, 0);
-			climbBack = new DoubleSolenoid(3, 2);
+			frontClimbPiston = new DoubleSolenoid(1, 0);
+			backClimbPiston = new DoubleSolenoid(3, 2);
 			compressor = new Compressor(0);
 		} catch (Exception e) {
 			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
@@ -59,8 +60,8 @@ public class Robot extends TimedRobot {
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
 	boolean autoRaiseToMiddle = false;
-	DoubleSolenoid climbFront;
-	DoubleSolenoid climbBack;
+	DoubleSolenoid frontClimbPiston;
+	DoubleSolenoid backClimbPiston;
 	Compressor compressor;
 	UsbCamera frontCamera;
 	UsbCamera backCamera;
@@ -73,9 +74,7 @@ public class Robot extends TimedRobot {
 		if (compressor != null) {
 			compressor.setClosedLoopControl(true);
 		}
-		frontCamera = new UsbCamera("Cam 0", 0);
-		imageServer = CameraServer.getInstance().addServer("camera");
-		imageServer.setSource(frontCamera);
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 	
 	/* Periodic functions are ran several times a second the entire time the robot
@@ -85,8 +84,6 @@ public class Robot extends TimedRobot {
 	}
 
 	public void autonomousInit() {
-		
-		imageServer.setSource(backCamera);
 	}
 
 	public void autonomousPeriodic() {
@@ -151,9 +148,9 @@ public class Robot extends TimedRobot {
 			autoRaiseToMiddle = true;
 		}
 
-		double topAngleValue = 0.335;
-		double bottomAngleValue = 0.48;
-		double presetAngleValue = 0.360;
+		double topAngleValue = 0.385;
+		double bottomAngleValue = 0.6;
+		double presetAngleValue = 0.436;
 		double presetAngleRange = .02;
 
 		if (dpadValue == DPAD_UP && angleVoltage > topAngleValue) {
@@ -178,9 +175,11 @@ public class Robot extends TimedRobot {
 		}
 	}
 	
-	public void potentiometer(){
+	public void shuffleboardDisplay(){
 		Shuffleboard.getTab("Potentiometer Value")
-			.add("Potentiometer" , angleSensor.getVoltage());
+			.add("Potentiometer" , angleSensor.getVoltage())
+			.withWidget(BuiltInWidgets.kNumberSlider)
+			.getEntry();
 	} 
 	
 	public void testPeriodic() {
@@ -189,35 +188,35 @@ public class Robot extends TimedRobot {
 
 	public void doubleSolenoidControl() {
 	
-		if (climbFront == null || climbBack == null) {
+		if (frontClimbPiston == null || backClimbPiston == null) {
 			return;
 		}
 		
 		if(!leftBumper.get()) {
-			climbFront.set(DoubleSolenoid.Value.kOff);
+			frontClimbPiston.set(DoubleSolenoid.Value.kOff);
 		} else {
 			if (previousFrontButton == false) {
 				nextDirectionIsForward = !nextDirectionIsForward;
 			}
 			
 			if (nextDirectionIsForward) {
-				climbFront.set(DoubleSolenoid.Value.kForward);
+				frontClimbPiston.set(DoubleSolenoid.Value.kForward);
 			} else {
-				climbFront.set(DoubleSolenoid.Value.kReverse);
+				frontClimbPiston.set(DoubleSolenoid.Value.kReverse);
 			}
 		}
 
 		if(!rightBumper.get()) {
-			climbBack.set(DoubleSolenoid.Value.kOff);
+			backClimbPiston.set(DoubleSolenoid.Value.kOff);
 		} else  {
 			if (previousBackButton == false) {
 				nextDirectionIsForward = !nextDirectionIsForward;
 			}
 			
 			if (nextDirectionIsForward) {
-				climbBack.set(DoubleSolenoid.Value.kForward);
+				backClimbPiston.set(DoubleSolenoid.Value.kForward);
 			} else {
-				climbBack.set(DoubleSolenoid.Value.kReverse);
+				backClimbPiston.set(DoubleSolenoid.Value.kReverse);
 			}
 		}
 		previousFrontButton = leftBumper.get();
