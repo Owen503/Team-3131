@@ -78,6 +78,14 @@ public class Robot extends TimedRobot {
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 	
+	public void cameraPeriodic(){
+		if (backButton.get() && manipulator.getCameraValue() > -0.5){
+			manipulator.cameraLeft();
+		} else if (startButton.get() && manipulator.getCameraValue() < 0.5){
+			manipulator.cameraRight();
+		}
+	}
+	
 	/* Periodic functions are ran several times a second the entire time the robot
 	 * is enabled */
 	public void robotPeriodic() {
@@ -154,11 +162,13 @@ public class Robot extends TimedRobot {
 		double bottomAngleValue = 0.6;
 		double presetAngleValue = 0.436;
 		double presetAngleRange = .02;
+		boolean rightJoystickDown = controller.getRawAxis(5) < 0.5;
+		boolean rightJoystickUp = controller.getRawAxis(5) > 0.5;
 
-		if (dpadValue == DPAD_UP && angleVoltage > topAngleValue) {
+		if ( rightJoystickUp && angleVoltage > topAngleValue) {
 			manipulator.raise();
 			autoRaiseToMiddle = false;
-		} else if (dpadValue == DPAD_DOWN && angleVoltage < bottomAngleValue){
+		} else if (rightJoystickDown && angleVoltage < bottomAngleValue){
 			manipulator.lower();
 			autoRaiseToMiddle = false;
 
@@ -170,16 +180,14 @@ public class Robot extends TimedRobot {
 			manipulator.elevatorStop();
 		}
 		
-		boolean rightJoystickDown = controller.getRawAxis(5) < 0.5;
-		boolean rightJoystickUp = controller.getRawAxis(5) > 0.5;
 		boolean intendToGoUp;
 		boolean intendToGoDown;
 		boolean wasWhite;
 		double tabValue = 10; //value isn't accurate; will change later
 
-		if (rightJoystickUp && !manipulator.elevatorTopLimit() ){
+		if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit() ){
 			manipulator.elevatorRaise();
-		} else if (rightJoystickDown && !manipulator.elevatorBottomLimit() ){
+		} else if (dpadValue == DPAD_DOWN && !manipulator.elevatorBottomLimit() ){
 			manipulator.elevatorLower();
 		}
 

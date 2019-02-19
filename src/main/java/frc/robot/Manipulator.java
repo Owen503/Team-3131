@@ -7,9 +7,11 @@ public class Manipulator {
 	DigitalInput intakeLimitSwitch = new DigitalInput(0);
 	DigitalInput elevatorTopLimitSwitch = new DigitalInput(1);
 	DigitalInput elevatorBottomLimitSwitch = new DigitalInput(2);
-	Talon manipIntakeAndEject = new Talon(2);
-	Talon liftMotor = new Talon(3);
+	Talon manipIntakeAndEject = new Talon(3);
+	Talon liftMotor = new Talon(2);
 	Talon elevatorMotor = new Talon(4);
+	Talon cameraServo = new Talon(5);
+	double cameraValue = 0;
 
 	public void intake() {
 		manipIntakeAndEject.set(-0.25);	
@@ -46,5 +48,19 @@ public class Manipulator {
 	}
 	public boolean elevatorBottomLimit() {
 		return elevatorBottomLimitSwitch.get();
+	}	
+	public void cameraStart(){
+		cameraServo.set(cameraValue);
+	}
+	public void cameraLeft(){
+		cameraValue = cameraValue - 0.01;
+		cameraServo.set(cameraValue);
+	}
+	public void cameraRight(){
+		cameraValue = cameraValue + 0.01;
+		cameraServo.set(cameraValue);
+	}
+	public double getCameraValue(){
+		return cameraValue;
 	}
 }
