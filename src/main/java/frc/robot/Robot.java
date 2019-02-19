@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
+	AnalogInput lightSensor = new AnalogInput(1);
 	boolean autoRaiseToMiddle = false;
 	DoubleSolenoid frontClimbPiston;
 	DoubleSolenoid backClimbPiston;
@@ -166,13 +167,33 @@ public class Robot extends TimedRobot {
 		} else if (autoRaiseToMiddle && angleVoltage > presetAngleValue + presetAngleRange / 2) { 
 			manipulator.raise();
 		} else {
-			manipulator.stopRaise();
+			manipulator.elevatorStop();
 		}
-
-		if (controller.getRawAxis(5) > 0.5 && !manipulator.elevatorTopLimit() ){
+		
+		boolean rightJoystickDown = controller.getRawAxis(5) < 0.5;
+		boolean rightJoystickUp = controller.getRawAxis(5) > 0.5;
+		boolean intendToGoUp;
+		boolean wasWhite;
+		double tabValue = 10;
+		/*if (rightJoystickUp && !manipulator.elevatorTopLimit() ){
 			manipulator.elevatorRaise();
-		} else if (controller.getRawAxis(5) < -0.5 && !manipulator.elevatorBottomLimit() ){
+		} else if (rightJoystickDown && !manipulator.elevatorBottomLimit() ){
 			manipulator.elevatorLower();
+		}*/
+
+		if (rightJoystickUp){
+			intendToGoUp = true;
+		}
+		if (intendToGoUp = true) {
+			manipulator.elevatorRaise();
+			if (lightSensor.getValue() > tabValue){
+				wasWhite = true;
+			}
+			if (wasWhite = true && lightSensor.getValue() <= tabValue){
+				manipulator.elevatorStop();
+				wasWhite = false;
+				intendToGoUp = false;
+			}
 		}
 	}
 	
