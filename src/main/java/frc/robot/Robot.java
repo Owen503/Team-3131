@@ -177,13 +177,13 @@ public class Robot extends TimedRobot {
 		boolean wasWhite;
 		double tabValue = 10; //value isn't accurate; will change later
 
-		/*if (rightJoystickUp && !manipulator.elevatorTopLimit() ){
+		if (rightJoystickUp && !manipulator.elevatorTopLimit() ){
 			manipulator.elevatorRaise();
 		} else if (rightJoystickDown && !manipulator.elevatorBottomLimit() ){
 			manipulator.elevatorLower();
-		}*/
+		}
 
-		if (rightJoystickUp){
+		/*if (rightJoystickUp){
 			intendToGoUp = true;
 		}
 		if (manipulator.elevatorTopLimit()){
@@ -215,7 +215,7 @@ public class Robot extends TimedRobot {
 				wasWhite = false;
 				intendToGoDown = false;
 			}
-		}
+		}*/
 	}
 	
 	public void testPeriodic() {

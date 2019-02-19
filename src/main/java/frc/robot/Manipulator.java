@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
 
 public class Manipulator {
-	DigitalInput manipulatorLimitSwitch = new DigitalInput(0);
+	DigitalInput intakeLimitSwitch = new DigitalInput(0);
 	DigitalInput elevatorTopLimitSwitch = new DigitalInput(1);
 	DigitalInput elevatorBottomLimitSwitch = new DigitalInput(2);
 	Talon manipIntakeAndEject = new Talon(2);
@@ -21,7 +21,7 @@ public class Manipulator {
 		manipIntakeAndEject.set(0);
 	}
 	public boolean containsBall() {
-		return manipulatorLimitSwitch.get();
+		return intakeLimitSwitch.get();
 	}
 	public void raise() {
 		liftMotor.set(1);
