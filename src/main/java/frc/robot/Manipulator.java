@@ -7,22 +7,18 @@ public class Manipulator {
 	DigitalInput manipulatorLimitSwitch = new DigitalInput(0);
 	DigitalInput elevatorTopLimitSwitch = new DigitalInput(1);
 	DigitalInput elevatorBottomLimitSwitch = new DigitalInput(2);
-	Talon leftManip = new Talon(2);
-	Talon rightManip = new Talon(3);
-	Talon liftMotor = new Talon(4);
-	Talon elevatorMotor = new Talon(5);
+	Talon manipIntakeAndEject = new Talon(2);
+	Talon liftMotor = new Talon(3);
+	Talon elevatorMotor = new Talon(4);
 
 	public void intake() {
-		leftManip.set(-0.25);
-		rightManip.set(0.25);
+		manipIntakeAndEject.set(-0.25);	
 	}
 	public void release() {
-		leftManip.set(1);
-		rightManip.set(-1);
+		manipIntakeAndEject.set(1);
 	}
 	public void stopIntake() {
-		leftManip.set(0);
-		rightManip.set(0);
+		manipIntakeAndEject.set(0);
 	}
 	public boolean containsBall() {
 		return manipulatorLimitSwitch.get();
