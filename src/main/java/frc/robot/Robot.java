@@ -173,8 +173,10 @@ public class Robot extends TimedRobot {
 		boolean rightJoystickDown = controller.getRawAxis(5) < 0.5;
 		boolean rightJoystickUp = controller.getRawAxis(5) > 0.5;
 		boolean intendToGoUp;
+		boolean intendToGoDown;
 		boolean wasWhite;
-		double tabValue = 10;
+		double tabValue = 10; //value isn't accurate; will change later
+
 		/*if (rightJoystickUp && !manipulator.elevatorTopLimit() ){
 			manipulator.elevatorRaise();
 		} else if (rightJoystickDown && !manipulator.elevatorBottomLimit() ){
@@ -184,7 +186,9 @@ public class Robot extends TimedRobot {
 		if (rightJoystickUp){
 			intendToGoUp = true;
 		}
-		if (intendToGoUp = true) {
+		if (manipulator.elevatorTopLimit()){
+			intendToGoUp = false;
+		} else if (intendToGoUp = true) {
 			manipulator.elevatorRaise();
 			if (lightSensor.getValue() > tabValue){
 				wasWhite = true;
@@ -193,6 +197,23 @@ public class Robot extends TimedRobot {
 				manipulator.elevatorStop();
 				wasWhite = false;
 				intendToGoUp = false;
+			}
+		}
+
+		if (rightJoystickDown){
+			intendToGoDown = true;
+		}
+		if (manipulator.elevatorBottomLimit()){
+			intendToGoDown = false;
+		} else if (intendToGoUp = true) {
+			manipulator.elevatorLower();
+			if (lightSensor.getValue() > tabValue){
+				wasWhite = true;
+			}
+			if (wasWhite = true && lightSensor.getValue() <= tabValue){
+				manipulator.elevatorStop();
+				wasWhite = false;
+				intendToGoDown = false;
 			}
 		}
 	}
