@@ -162,22 +162,23 @@ public class Robot extends TimedRobot {
 		double bottomAngleValue = 0.6;
 		double presetAngleValue = 0.436;
 		double presetAngleRange = .02;
-		boolean rightJoystickDown = controller.getRawAxis(5) < 0.5;
+		boolean rightJoystickDown = controller.getRawAxis(5) < -0.5;
 		boolean rightJoystickUp = controller.getRawAxis(5) > 0.5;
 
-		if ( rightJoystickUp && angleVoltage > topAngleValue) {
+		if ( rightJoystickUp /*&& angleVoltage > topAngleValue*/) {
 			manipulator.raise();
 			autoRaiseToMiddle = false;
-		} else if (rightJoystickDown && angleVoltage < bottomAngleValue){
+		} else if (rightJoystickDown /*&& angleVoltage < bottomAngleValue*/){
 			manipulator.lower();
 			autoRaiseToMiddle = false;
 
-		} else if(autoRaiseToMiddle && angleVoltage < presetAngleValue - presetAngleRange / 2) {
+		} /*else if(autoRaiseToMiddle && angleVoltage < presetAngleValue - presetAngleRange / 2) {
 			manipulator.lower();
 		} else if (autoRaiseToMiddle && angleVoltage > presetAngleValue + presetAngleRange / 2) { 
 			manipulator.raise();
-		} else {
-			manipulator.elevatorStop();
+		} */else {
+			manipulator.stopRaise();
+			//manipulator.elevatorStop();  ==================  THIS IS WRONG
 		}
 		
 		boolean intendToGoUp;
@@ -185,10 +186,12 @@ public class Robot extends TimedRobot {
 		boolean wasWhite;
 		double tabValue = 10; //value isn't accurate; will change later
 
-		if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit() ){
+		if (dpadValue == DPAD_UP /*&& !manipulator.elevatorTopLimit() */){
 			manipulator.elevatorRaise();
-		} else if (dpadValue == DPAD_DOWN && !manipulator.elevatorBottomLimit() ){
+		} else if (dpadValue == DPAD_DOWN /*&& !manipulator.elevatorBottomLimit() */){
 			manipulator.elevatorLower();
+		} else {
+			manipulator.elevatorStop();
 		}
 
 		/*if (rightJoystickUp){

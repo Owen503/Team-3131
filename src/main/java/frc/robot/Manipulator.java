@@ -8,8 +8,8 @@ public class Manipulator {
 	DigitalInput elevatorTopLimitSwitch = new DigitalInput(1);
 	DigitalInput elevatorBottomLimitSwitch = new DigitalInput(2);
 	Talon manipIntakeAndEject = new Talon(3);
-	Talon liftMotor = new Talon(2);
-	Talon elevatorMotor = new Talon(4);
+	Talon liftMotor = new Talon(4);
+	Talon elevatorMotor = new Talon(2);
 	Talon cameraServo = new Talon(5);
 	double cameraValue = 0;
 
