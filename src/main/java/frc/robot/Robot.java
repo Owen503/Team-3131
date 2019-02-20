@@ -55,7 +55,9 @@ public class Robot extends TimedRobot {
 			leftBumper = new JoystickButton(controller, 5),
 			rightBumper = new JoystickButton(controller, 6),
 			backButton = new JoystickButton(controller, 7),
-			startButton = new JoystickButton(controller, 8);
+			startButton = new JoystickButton(controller, 8),
+			leftJoystickButton = new JoystickButton(controller , 9),
+			rightJoystickButton = new JoystickButton(controller, 10);
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
@@ -154,7 +156,7 @@ public class Robot extends TimedRobot {
 		double angleVoltage = angleSensor.getVoltage();
 		int dpadValue = controller.getPOV();
 
-		if(dpadValue == DPAD_RIGHT) {
+		if(rightJoystickButton.get()) {
 			autoRaiseToMiddle = true;
 		}
 
@@ -166,19 +168,19 @@ public class Robot extends TimedRobot {
 		boolean rightJoystickUp = controller.getRawAxis(5) > 0.5;
 
 		if ( rightJoystickUp /*&& angleVoltage > topAngleValue*/) {
-			manipulator.raise();
+			manipulator.angleRaise();
 			autoRaiseToMiddle = false;
 		} else if (rightJoystickDown /*&& angleVoltage < bottomAngleValue*/){
-			manipulator.lower();
+			manipulator.angleLower();
 			autoRaiseToMiddle = false;
 
-		} /*else if(autoRaiseToMiddle && angleVoltage < presetAngleValue - presetAngleRange / 2) {
+		} /*else if(autoRaiseToMiddle && angleVoltage < (presetAngleValue - presetAngleRange / 2)) {
 			manipulator.lower();
-		} else if (autoRaiseToMiddle && angleVoltage > presetAngleValue + presetAngleRange / 2) { 
+		} else if (autoRaiseToMiddle && angleVoltage > (presetAngleValue + presetAngleRange / 2)) { 
 			manipulator.raise();
 		} */else {
-			manipulator.stopRaise();
-			//manipulator.elevatorStop();  ==================  THIS IS WRONG
+			manipulator.angleStop();
+			
 		}
 		
 		boolean intendToGoUp;

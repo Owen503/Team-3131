@@ -8,8 +8,8 @@ public class Manipulator {
 	DigitalInput elevatorTopLimitSwitch = new DigitalInput(1);
 	DigitalInput elevatorBottomLimitSwitch = new DigitalInput(2);
 	Talon manipIntakeAndEject = new Talon(3);
-	Talon liftMotor = new Talon(4);
-	Talon elevatorMotor = new Talon(2);
+	Talon angleMotor = new Talon(2);
+	Talon elevatorMotor = new Talon(4);
 	Talon cameraServo = new Talon(5);
 	double cameraValue = 0;
 
@@ -25,14 +25,14 @@ public class Manipulator {
 	public boolean containsBall() {
 		return intakeLimitSwitch.get();
 	}
-	public void raise() {
-		liftMotor.set(1);
+	public void angleRaise() {
+		angleMotor.set(1);
 	}
-	public void lower() {
-		liftMotor.set(-0.8);
+	public void angleLower() {
+		angleMotor.set(-0.8);
 	}
-	public void stopRaise() {
-		liftMotor.set(0);
+	public void angleStop() {
+		angleMotor.set(0);
 	}
 	public void elevatorRaise(){
 		elevatorMotor.set(1);
