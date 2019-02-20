@@ -107,9 +107,6 @@ public class Robot extends TimedRobot {
 		teleopManipulatorPeriodic();
 		teleopDrivePeriodic();
 		doubleSolenoidControl();
-		//Move line below to ShuffleBoard
-		//System.out.println("potentiometer: " + angleSensor.getVoltage());
-		
 	}
 
 	private void teleopDrivePeriodic() {
