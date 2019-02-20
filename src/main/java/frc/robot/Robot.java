@@ -165,19 +165,20 @@ public class Robot extends TimedRobot {
 		boolean rightJoystickDown = controller.getRawAxis(5) < -0.5;
 		boolean rightJoystickUp = controller.getRawAxis(5) > 0.5;
 
-		if ( rightJoystickUp && angleVoltage > topAngleValue) {
+		if ( rightJoystickUp /*&& angleVoltage > topAngleValue*/) {
 			manipulator.raise();
 			autoRaiseToMiddle = false;
-		} else if (rightJoystickDown && angleVoltage < bottomAngleValue){
+		} else if (rightJoystickDown /*&& angleVoltage < bottomAngleValue*/){
 			manipulator.lower();
 			autoRaiseToMiddle = false;
 
-		} else if(autoRaiseToMiddle && angleVoltage < presetAngleValue - presetAngleRange / 2) {
+		} /*else if(autoRaiseToMiddle && angleVoltage < presetAngleValue - presetAngleRange / 2) {
 			manipulator.lower();
 		} else if (autoRaiseToMiddle && angleVoltage > presetAngleValue + presetAngleRange / 2) { 
 			manipulator.raise();
-		} else {
+		} */else {
 			manipulator.stopRaise();
+			//manipulator.elevatorStop();  ==================  THIS IS WRONG
 		}
 		
 		boolean intendToGoUp;
