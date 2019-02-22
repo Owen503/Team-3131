@@ -35,10 +35,10 @@ public class Manipulator {
 		angleMotor.set(0);
 	}
 	public void elevatorRaise(){
-		elevatorMotor.set(1);
+		elevatorMotor.set(-1);
 	}
 	public void elevatorLower(){
-		elevatorMotor.set(-0.75);
+		elevatorMotor.set(0.75);
 	}
 	public void elevatorStop(){
 		elevatorMotor.set(0);
