@@ -81,9 +81,9 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void cameraPeriodic(){
-		if (backButton.get()/* && manipulator.getCameraValue() > -0.5*/){
+		if (backButton.get()){
 			manipulator.cameraLeft();
-		} else if (startButton.get()/* && manipulator.getCameraValue() < 0.5*/){
+		} else if (startButton.get()){
 			manipulator.cameraRight();
 		}
 	}

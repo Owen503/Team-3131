@@ -11,7 +11,6 @@ public class Manipulator {
 	Talon angleMotor = new Talon(2);
 	Talon elevatorMotor = new Talon(4);
 	Talon cameraServo = new Talon(5);
-	double cameraValue = 0;
 
 	public void intake() {
 		manipIntakeAndEject.set(-0.25);	
@@ -53,12 +52,10 @@ public class Manipulator {
 		cameraServo.set(cameraValue);
 	}
 	public void cameraLeft(){
-		cameraValue = cameraValue - 0.01;
-		cameraServo.set(cameraValue);
+		cameraServo.set(-0.5);
 	}
 	public void cameraRight(){
-		cameraValue = cameraValue + 0.01;
-		cameraServo.set(cameraValue);
+		cameraServo.set(0.5);
 	}
 	public double getCameraValue(){
 		return cameraValue;
