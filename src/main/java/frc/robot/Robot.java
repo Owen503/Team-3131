@@ -197,14 +197,7 @@ public class Robot extends TimedRobot {
 		double angleVoltage = angleSensor.getVoltage();
 		int dpadValue = controller.getPOV();
 
-		if(dpadValue == DPAD_LEFT){
-			manipulator.cameraLeft();
-		} else if (dpadValue == DPAD_RIGHT){
-			manipulator.cameraRight();
-		}
-		else{
-			manipulator.cameraStop();
-		}
+		manipulator.cameraServo.set(controller.getRawAxis(4));
 		
 
 		if (dpadValue == DPAD_UP /*&& !manipulator.elevatorTopLimit() */){
