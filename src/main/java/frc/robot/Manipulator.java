@@ -54,4 +54,7 @@ public class Manipulator {
 	public void cameraRight(){
 		cameraServo.set(0.5);
 	}
+	public void cameraStop(){
+		cameraServo.set(0);
+	}
 }

@@ -134,8 +134,19 @@ public class Robot extends TimedRobot {
 	final int DPAD_DOWN = 180;
 	final int DPAD_RIGHT = 90;
 	final int DPAD_LEFT = 270;
-	
+	/*double angleVoltage = angleSensor.getVoltage();
+	int dpadValue = controller.getPOV();*/
+
 	private void teleopManipulatorPeriodic() {
+		/*if(dpadValue == DPAD_LEFT){
+			manipulator.cameraLeft();
+		} else if (dpadValue == DPAD_RIGHT){
+			manipulator.cameraRight();
+		}
+		else{
+			manipulator.cameraStop();
+		}*/
+
 		if(aButton.get() && bButton.get()){
 			controller.setRumble(RumbleType.kLeftRumble, 1);
 			controller.setRumble(RumbleType.kRightRumble, 1);
@@ -153,8 +164,6 @@ public class Robot extends TimedRobot {
 			manipulator.stopIntake();
 		}
 
-		double angleVoltage = angleSensor.getVoltage();
-		int dpadValue = controller.getPOV();
 
 		if(rightJoystickButton.get()) {
 			autoRaiseToMiddle = true;
@@ -187,6 +196,17 @@ public class Robot extends TimedRobot {
 		boolean intendToGoDown;
 		boolean wasWhite;
 		double tabValue = 10; //value isn't accurate; will change later
+		double angleVoltage = angleSensor.getVoltage();
+		int dpadValue = controller.getPOV();
+
+		if(dpadValue == DPAD_LEFT){
+			manipulator.cameraLeft();
+		} else if (dpadValue == DPAD_RIGHT){
+			manipulator.cameraRight();
+		}
+		else{
+			manipulator.cameraStop();
+		}
 
 		if (dpadValue == DPAD_UP /*&& !manipulator.elevatorTopLimit() */){
 			manipulator.elevatorRaise();
