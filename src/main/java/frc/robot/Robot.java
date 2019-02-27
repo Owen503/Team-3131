@@ -7,10 +7,8 @@
 
 package frc.robot;
 
-//I'M IN!!!!
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
@@ -19,13 +17,9 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.*;
-import java.nio.ByteBuffer;
-import edu.wpi.first.wpilibj.I2C;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -67,8 +61,6 @@ public class Robot extends TimedRobot {
 	DoubleSolenoid backClimbPiston;
 	Compressor compressor;
 	UsbCamera frontCamera;
-	UsbCamera backCamera;
-	MjpegServer imageServer;
 	
 
 	/* Init functions are run ONCE when the robot is first started up and should be
@@ -80,13 +72,6 @@ public class Robot extends TimedRobot {
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 	
-	public void cameraPeriodic(){
-		if (backButton.get()){
-			manipulator.cameraLeft();
-		} else if (startButton.get()){
-			manipulator.cameraRight();
-		}
-	}
 	
 	/* Periodic functions are ran several times a second the entire time the robot
 	 * is enabled */
@@ -109,8 +94,7 @@ public class Robot extends TimedRobot {
 		teleopManipulatorPeriodic();
 		teleopDrivePeriodic();
 		doubleSolenoidControl();
-		//Move line below to ShuffleBoard
-		//System.out.println("potentiometer: " + angleSensor.getVoltage());
+	
 		
 	}
 
@@ -135,17 +119,10 @@ public class Robot extends TimedRobot {
 	final int DPAD_RIGHT = 90;
 	final int DPAD_LEFT = 270;
 	/*double angleVoltage = angleSensor.getVoltage();
-	int dpadValue = controller.getPOV();*/
+	*/
+
 
 	private void teleopManipulatorPeriodic() {
-		/*if(dpadValue == DPAD_LEFT){
-			manipulator.cameraLeft();
-		} else if (dpadValue == DPAD_RIGHT){
-			manipulator.cameraRight();
-		}
-		else{
-			manipulator.cameraStop();
-		}*/
 
 		if(aButton.get() && bButton.get()){
 			controller.setRumble(RumbleType.kLeftRumble, 1);

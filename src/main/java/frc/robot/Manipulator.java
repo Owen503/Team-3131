@@ -48,13 +48,4 @@ public class Manipulator {
 	public boolean elevatorBottomLimit() {
 		return elevatorBottomLimitSwitch.get();
 	}	
-	public void cameraLeft(){
-		cameraServo.set(-0.5);
-	}
-	public void cameraRight(){
-		cameraServo.set(0.5);
-	}
-	public void cameraStop(){
-		cameraServo.set(0);
-	}
 }
