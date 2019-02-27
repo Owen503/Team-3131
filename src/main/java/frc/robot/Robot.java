@@ -122,7 +122,7 @@ public class Robot extends TimedRobot {
 		*/
 
 		double speed = 0.7;
-		if (controller.getRawAxis(2) == 1){
+		if (leftJoystickButton.get()){
 			speed = 1;
 		}
 		driveTrain.arcadeDrive(
@@ -173,13 +173,11 @@ public class Robot extends TimedRobot {
 		double bottomAngleValue = 0.6;
 		double presetAngleValue = 0.436;
 		double presetAngleRange = .02;
-		boolean rightJoystickDown = controller.getRawAxis(5) < -0.5;
-		boolean rightJoystickUp = controller.getRawAxis(5) > 0.5;
 
-		if ( rightJoystickUp /*&& angleVoltage > topAngleValue*/) {
+		if ( yButton.get() /*&& angleVoltage > topAngleValue*/) {
 			manipulator.angleRaise();
 			autoRaiseToMiddle = false;
-		} else if (rightJoystickDown /*&& angleVoltage < bottomAngleValue*/){
+		} else if (xButton.get() /*&& angleVoltage < bottomAngleValue*/){
 			manipulator.angleLower();
 			autoRaiseToMiddle = false;
 
@@ -207,6 +205,7 @@ public class Robot extends TimedRobot {
 		else{
 			manipulator.cameraStop();
 		}
+		
 
 		if (dpadValue == DPAD_UP /*&& !manipulator.elevatorTopLimit() */){
 			manipulator.elevatorRaise();
