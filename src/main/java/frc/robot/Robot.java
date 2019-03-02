@@ -185,7 +185,7 @@ public class Robot extends TimedRobot {
 			manipulator.elevatorStop();
 		}
 
-		if (dpadValue == DPAD_UP){
+		/*if (dpadValue == DPAD_UP){
 			intendToGoUp = true;
 		}
 		if (manipulator.elevatorTopLimit()){
@@ -199,6 +199,7 @@ public class Robot extends TimedRobot {
 				manipulator.elevatorStop();
 				wasWhite = false;
 				intendToGoUp = false;
+
 			}
 		}
 
@@ -217,7 +218,7 @@ public class Robot extends TimedRobot {
 				wasWhite = false;
 				intendToGoDown = false;
 			}
-		}
+		}*/
 	}
 	
 	public void testPeriodic() {
