@@ -61,7 +61,10 @@ public class Robot extends TimedRobot {
 	DoubleSolenoid backClimbPiston;
 	Compressor compressor;
 	UsbCamera frontCamera;
-	
+	boolean intendToGoUp = false;
+	boolean intendToGoDown = false;
+	boolean wasWhite = false;
+	double tabValue = 500;
 
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
@@ -132,7 +135,7 @@ public class Robot extends TimedRobot {
 			controller.setRumble(RumbleType.kRightRumble, 0);
 		}
 
-		if(aButton.get() && !manipulator.containsBall()) {
+		if(aButton.get() /*&& !manipulator.containsBall()*/) {
 			manipulator.intake();
 		}
 		else if(bButton.get()) {
@@ -146,15 +149,16 @@ public class Robot extends TimedRobot {
 			autoRaiseToMiddle = true;
 		}
 
-		double topAngleValue = 0.385;
-		double bottomAngleValue = 0.6;
+		double topAngleValue = 0.54;
+		double bottomAngleValue = 0.72;
 		double presetAngleValue = 0.436;
 		double presetAngleRange = .02;
+		double angleVoltage = angleSensor.getVoltage();
 
-		if ( yButton.get() /*&& angleVoltage > topAngleValue*/) {
+		if ( yButton.get() && angleVoltage > topAngleValue) {
 			manipulator.angleRaise();
 			autoRaiseToMiddle = false;
-		} else if (xButton.get() /*&& angleVoltage < bottomAngleValue*/){
+		} else if (xButton.get() && angleVoltage < bottomAngleValue){
 			manipulator.angleLower();
 			autoRaiseToMiddle = false;
 
@@ -167,59 +171,55 @@ public class Robot extends TimedRobot {
 			
 		}
 		
-		boolean intendToGoUp;
-		boolean intendToGoDown;
-		boolean wasWhite;
-		double tabValue = 10; //value isn't accurate; will change later
-		double angleVoltage = angleSensor.getVoltage();
+		 //value isn't accurate; will change later
 		int dpadValue = controller.getPOV();
 
 		manipulator.cameraServo.set(controller.getRawAxis(4));
 		
 
-		if (dpadValue == DPAD_UP /*&& !manipulator.elevatorTopLimit() */){
+		/*if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit() ){
 			manipulator.elevatorRaise();
-		} else if (dpadValue == DPAD_DOWN /*&& !manipulator.elevatorBottomLimit() */){
+		} else if (dpadValue == DPAD_DOWN && !manipulator.elevatorBottomLimit() ){
 			manipulator.elevatorLower();
 		} else {
 			manipulator.elevatorStop();
-		}
+		}*/
 
-		/*if (dpadValue == DPAD_UP){
+		if (dpadValue == DPAD_UP){
 			intendToGoUp = true;
 		}
-		if (manipulator.elevatorTopLimit()){
+		/*if (manipulator.elevatorTopLimit()){
 			intendToGoUp = false;
-		} else if (intendToGoUp = true) {
+		} else*/ if (intendToGoUp == true) {
 			manipulator.elevatorRaise();
-			if (lightSensor.getValue() > tabValue){
-				wasWhite = true;
-			}
-			if (wasWhite = true && lightSensor.getValue() <= tabValue){
-				manipulator.elevatorStop();
-				wasWhite = false;
-				intendToGoUp = false;
-
-			}
 		}
+		
 
 		if (dpadValue == DPAD_DOWN){
 			intendToGoDown = true;
 		}
-		if (manipulator.elevatorBottomLimit()){
+		/*if (manipulator.elevatorBottomLimit()){
 			intendToGoDown = false;
-		} else if (intendToGoUp = true) {
+		} else*/ if (intendToGoDown == true) {
 			manipulator.elevatorLower();
-			if (lightSensor.getValue() > tabValue){
-				wasWhite = true;
-			}
-			if (wasWhite = true && lightSensor.getValue() <= tabValue){
-				manipulator.elevatorStop();
-				wasWhite = false;
-				intendToGoDown = false;
-			}
-		}*/
-	}
+		}
+		if (lightSensor.getValue() < tabValue){
+			wasWhite = true;
+		}
+		if (wasWhite == true && lightSensor.getValue() >= tabValue){
+			manipulator.elevatorStop();
+			wasWhite = false;
+			intendToGoUp = false;
+			intendToGoDown = false;
+		}
+
+		System.out.println("wasWhite: ");
+		System.out.println(wasWhite);
+		System.out.println("intendToGoDown: ");
+		System.out.println(intendToGoDown);
+		
+		
+	} 
 	
 	public void testPeriodic() {
 
