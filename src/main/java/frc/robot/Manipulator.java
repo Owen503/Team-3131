@@ -50,18 +50,5 @@ public class Manipulator {
 	public boolean elevatorBottomLimit() {
 		return elevatorBottomLimitSwitch.get();
 	}	
-	public void cameraStart(){
-		cameraServo.set(cameraValue);
-	}
-	public void cameraLeft(){
-		cameraValue = cameraValue - 0.01;
-		cameraServo.set(cameraValue);
-	}
-	public void cameraRight(){
-		cameraValue = cameraValue + 0.01;
-		cameraServo.set(cameraValue);
-	}
-	public double getCameraValue(){
-		return cameraValue;
-	}
+	
 }
