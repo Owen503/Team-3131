@@ -10,7 +10,8 @@ public class Manipulator {
 	Talon manipIntakeAndEject = new Talon(3);
 	Talon angleMotor = new Talon(2);
 	Talon elevatorMotor = new Talon(4);
-	Talon cameraServo = new Talon(5);
+	Talon cameraServoSide = new Talon(5);
+	Talon cameraServoUp = new Talon(6);
 
 	public void intake() {
 		manipIntakeAndEject.set(-0.25);	

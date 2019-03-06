@@ -174,7 +174,8 @@ public class Robot extends TimedRobot {
 		 //value isn't accurate; will change later
 		int dpadValue = controller.getPOV();
 
-		manipulator.cameraServo.set(controller.getRawAxis(4));
+		manipulator.cameraServoSide.set(controller.getRawAxis(4));
+		manipulator.cameraServoUp.set(controller.getRawAxis(5));
 		
 
 		/*if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit() ){
