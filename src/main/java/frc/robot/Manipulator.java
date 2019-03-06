@@ -11,7 +11,8 @@ public class Manipulator {
 	Talon angleMotor = new Talon(2);
 	Talon elevatorMotor = new Talon(4);
 	Talon cameraServoSide = new Talon(5);
-	Talon cameraServoUp = new Talon(6);
+	Talon cameraServoside = new Talon(6);
+	double cameraValue = 0;
 
 	public void intake() {
 		manipIntakeAndEject.set(-0.25);	
@@ -26,19 +27,19 @@ public class Manipulator {
 		return intakeLimitSwitch.get();
 	}
 	public void angleRaise() {
-		angleMotor.set(-1);
+		angleMotor.set(1);
 	}
 	public void angleLower() {
-		angleMotor.set(0.8);
+		angleMotor.set(-0.8);
 	}
 	public void angleStop() {
 		angleMotor.set(0);
 	}
 	public void elevatorRaise(){
-		elevatorMotor.set(-0.25);
+		elevatorMotor.set(-1);
 	}
-	public void elevatorLower(){
-		elevatorMotor.set(0.25);
+	public void elevatorLower(){ 
+		elevatorMotor.set(0.75);
 	}
 	public void elevatorStop(){
 		elevatorMotor.set(0);
@@ -49,4 +50,18 @@ public class Manipulator {
 	public boolean elevatorBottomLimit() {
 		return elevatorBottomLimitSwitch.get();
 	}	
+	public void cameraStart(){
+		cameraServo.set(cameraValue);
+	}
+	public void cameraLeft(){
+		cameraValue = cameraValue - 0.01;
+		cameraServo.set(cameraValue);
+	}
+	public void cameraRight(){
+		cameraValue = cameraValue + 0.01;
+		cameraServo.set(cameraValue);
+	}
+	public double getCameraValue(){
+		return cameraValue;
+	}
 }
