@@ -155,10 +155,10 @@ public class Robot extends TimedRobot {
 		double presetAngleRange = .02;
 		double angleVoltage = angleSensor.getVoltage();
 
-		if ( yButton.get() && angleVoltage > topAngleValue) {
+		if ( yButton.get())/* && angleVoltage > topAngleValue)*/ {
 			manipulator.angleRaise();
 			autoRaiseToMiddle = false;
-		} else if (xButton.get() && angleVoltage < bottomAngleValue){
+		} else if (xButton.get()/* && angleVoltage < bottomAngleValue*/){
 			manipulator.angleLower();
 			autoRaiseToMiddle = false;
 
@@ -178,20 +178,20 @@ public class Robot extends TimedRobot {
 		manipulator.cameraServoUp.set(controller.getRawAxis(5));
 		
 
-		/*if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit() ){
+		if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit() ){
 			manipulator.elevatorRaise();
 		} else if (dpadValue == DPAD_DOWN && !manipulator.elevatorBottomLimit() ){
 			manipulator.elevatorLower();
 		} else {
 			manipulator.elevatorStop();
-		}*/
+		}
 
-		if (dpadValue == DPAD_UP){
+		/*if (dpadValue == DPAD_UP){
 			intendToGoUp = true;
 		}
-		/*if (manipulator.elevatorTopLimit()){
+		if (manipulator.elevatorTopLimit()){
 			intendToGoUp = false;
-		} else*/ if (intendToGoUp == true) {
+		} else if (intendToGoUp == true) {
 			manipulator.elevatorRaise();
 		}
 		
@@ -199,9 +199,9 @@ public class Robot extends TimedRobot {
 		if (dpadValue == DPAD_DOWN){
 			intendToGoDown = true;
 		}
-		/*if (manipulator.elevatorBottomLimit()){
+		if (manipulator.elevatorBottomLimit()){
 			intendToGoDown = false;
-		} else*/ if (intendToGoDown == true) {
+		} else if (intendToGoDown == true) {
 			manipulator.elevatorLower();
 		}
 		if (lightSensor.getValue() < tabValue){
@@ -212,7 +212,7 @@ public class Robot extends TimedRobot {
 			wasWhite = false;
 			intendToGoUp = false;
 			intendToGoDown = false;
-		}
+		}*/
 
 		System.out.println("wasWhite: ");
 		System.out.println(wasWhite);
