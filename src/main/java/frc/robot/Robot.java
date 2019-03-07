@@ -178,15 +178,15 @@ public class Robot extends TimedRobot {
 		manipulator.cameraServoUp.set(controller.getRawAxis(5));
 		
 
-		if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit() ){
+		/*if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit() ){
 			manipulator.elevatorRaise();
 		} else if (dpadValue == DPAD_DOWN && !manipulator.elevatorBottomLimit() ){
 			manipulator.elevatorLower();
 		} else {
 			manipulator.elevatorStop();
-		}
+		}*/
 
-		/*if (dpadValue == DPAD_UP){
+		if (dpadValue == DPAD_UP){
 			intendToGoUp = true;
 		}
 		if (manipulator.elevatorTopLimit()){
@@ -204,7 +204,7 @@ public class Robot extends TimedRobot {
 		} else if (intendToGoDown == true) {
 			manipulator.elevatorLower();
 		}
-		if (lightSensor.getValue() < tabValue){
+		if (infaredSensor.getValue() < tabValue){
 			wasWhite = true;
 		}
 		if (wasWhite == true && infaredSensor.getValue() >= tabValue){
@@ -212,7 +212,7 @@ public class Robot extends TimedRobot {
 			wasWhite = false;
 			intendToGoUp = false;
 			intendToGoDown = false;
-		}*/
+		}
 
 		System.out.println("wasWhite: ");
 		System.out.println(wasWhite);
