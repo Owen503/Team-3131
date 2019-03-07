@@ -207,7 +207,7 @@ public class Robot extends TimedRobot {
 		if (lightSensor.getValue() < tabValue){
 			wasWhite = true;
 		}
-		if (wasWhite == true && lightSensor.getValue() >= tabValue){
+		if (wasWhite == true && infaredSensor.getValue() >= tabValue){
 			manipulator.elevatorStop();
 			wasWhite = false;
 			intendToGoUp = false;
