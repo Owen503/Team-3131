@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
 	Manipulator manipulator = new Manipulator();
 	DifferentialDrive driveTrain = new DifferentialDrive(new Talon(0), new Talon(1));
 	AnalogInput angleSensor = new AnalogInput(0);
-	AnalogInput lightSensor = new AnalogInput(1);
+	AnalogInput infaredSensor = new AnalogInput(1);
 	boolean autoRaiseToMiddle = false;
 	DoubleSolenoid frontClimbPiston;
 	DoubleSolenoid backClimbPiston;
