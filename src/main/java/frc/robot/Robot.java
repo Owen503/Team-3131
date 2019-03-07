@@ -135,7 +135,7 @@ public class Robot extends TimedRobot {
 			controller.setRumble(RumbleType.kRightRumble, 0);
 		}
 
-		if(aButton.get() /*&& !manipulator.containsBall()*/) {
+		if(aButton.get() && manipulator.doesNotContainBall()) {
 			manipulator.intake();
 		}
 		else if(bButton.get()) {
@@ -143,7 +143,7 @@ public class Robot extends TimedRobot {
 		} else {
 			manipulator.stopIntake();
 		}
-
+  
 
 		if(rightJoystickButton.get()) {
 			autoRaiseToMiddle = true;
@@ -174,19 +174,19 @@ public class Robot extends TimedRobot {
 		 //value isn't accurate; will change later
 		int dpadValue = controller.getPOV();
 
-		manipulator.cameraServoSide.set(controller.getRawAxis(4));
-		manipulator.cameraServoUp.set(controller.getRawAxis(5));
+		manipulator.cameraServoSide.set(controller.getRawAxis(5));
+		manipulator.cameraServoUp.set(controller.getRawAxis(4));
 		
 
-		/*if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit() ){
+		if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit() ){
 			manipulator.elevatorRaise();
 		} else if (dpadValue == DPAD_DOWN && !manipulator.elevatorBottomLimit() ){
 			manipulator.elevatorLower();
 		} else {
 			manipulator.elevatorStop();
-		}*/
+		}
 
-		if (dpadValue == DPAD_UP){
+		/*if (dpadValue == DPAD_UP){
 			intendToGoUp = true;
 		}
 		if (manipulator.elevatorTopLimit()){
@@ -212,7 +212,7 @@ public class Robot extends TimedRobot {
 			wasWhite = false;
 			intendToGoUp = false;
 			intendToGoDown = false;
-		}
+		}*/
 
 		System.out.println("wasWhite: ");
 		System.out.println(wasWhite);
