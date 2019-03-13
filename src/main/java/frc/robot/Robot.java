@@ -17,8 +17,11 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.*;
+import edu.wpi.first.networktables.NetworkTableEntry;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,7 +36,7 @@ public class Robot extends TimedRobot {
 		try {
 			frontClimbPiston = new DoubleSolenoid(1, 0);
 			backClimbPiston = new DoubleSolenoid(3, 2);
-			//compressor = new Compressor(0);
+			compressor = new Compressor(0);
 		} catch (Exception e) {
 			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
 			System.out.print(e.toString());
@@ -70,6 +73,9 @@ public class Robot extends TimedRobot {
 	boolean previousFrontButton = false;
 	boolean nextDirectionIsForward = true;
 
+	NetworkTableEntry elevatorPresetsToggle;
+	NetworkTableEntry useAngleSensorToggle;
+
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
 	public void robotInit() {
@@ -77,6 +83,17 @@ public class Robot extends TimedRobot {
 			compressor.setClosedLoopControl(true);
 		}
 		CameraServer.getInstance().startAutomaticCapture();
+
+		ShuffleboardLayout settingsList = Shuffleboard.getTab("Settings")
+			.getLayout("List", "Settings");
+		elevatorPresetsToggle = settingsList
+			.add("Elevator Presets", false)
+			.withWidget("Toggle Button")
+			.getEntry();
+		useAngleSensorToggle = settingsList
+			.add("Use Angle Sensor", false)
+			.withWidget("Toggle Button")
+			.getEntry();
 	}
 	
 	/* Periodic functions are ran several times a second the entire time the robot
@@ -93,7 +110,7 @@ public class Robot extends TimedRobot {
 	}
 
 	public void teleopInit() {
-		
+
 	}
 
 	public void teleopPeriodic() {
@@ -120,8 +137,6 @@ public class Robot extends TimedRobot {
 	final int DPAD_DOWN = 180;
 	final int DPAD_RIGHT = 90;
 	final int DPAD_LEFT = 270;
-	/*double angleVoltage = angleSensor.getVoltage();
-	*/
 
 	private void intakeEjectPeriodic() {
 		if(aButton.get() && bButton.get()){
@@ -144,6 +159,8 @@ public class Robot extends TimedRobot {
 
 	private void manipulatorAnglePeriodic() {
 
+		boolean useAngleSensor = useAngleSensorToggle.getBoolean(false);
+
 		if(rightJoystickButton.get()) {
 			autoRaiseToMiddle = true;
 		}
@@ -154,28 +171,26 @@ public class Robot extends TimedRobot {
 		double presetAngleRange = .02;
 		double angleVoltage = angleSensor.getVoltage();
 
-		if ( yButton.get() /*&& angleVoltage > topAngleValue*/) {
+		if (yButton.get() && (!useAngleSensor || angleVoltage > topAngleValue)) {
 			manipulator.angleRaise();
 			autoRaiseToMiddle = false;
-		} else if (xButton.get() /*&& angleVoltage < bottomAngleValue*/){
+		} else if (xButton.get() && (!useAngleSensor || angleVoltage < bottomAngleValue)) {
 			manipulator.angleLower();
 			autoRaiseToMiddle = false;
 
-		} /*else if(autoRaiseToMiddle && angleVoltage < (presetAngleValue - presetAngleRange / 2)) {
-			manipulator.lower();
-		} else if (autoRaiseToMiddle && angleVoltage > (presetAngleValue + presetAngleRange / 2)) { 
-			manipulator.raise();
-		} */else {
+		} else if(useAngleSensor && autoRaiseToMiddle && angleVoltage < (presetAngleValue - presetAngleRange / 2)) {
+			manipulator.angleLower();
+		} else if (useAngleSensor && autoRaiseToMiddle && angleVoltage > (presetAngleValue + presetAngleRange / 2)) { 
+			manipulator.angleRaise();
+		} else {
 			manipulator.angleStop();
 		}
-		
 	}
 
 	private void cameraPanTiltPeriodic() {
 		manipulator.cameraServoSide.set(controller.getRawAxis(5));
 		manipulator.cameraServoUp.set(controller.getRawAxis(4));
 	}
-
 
 	private void elevatorManualPeriodic() {
 		int dpadValue = controller.getPOV();
@@ -194,25 +209,28 @@ public class Robot extends TimedRobot {
 		if (dpadValue == DPAD_UP){
 			intendToGoUp = true;
 		}
+
 		if (manipulator.elevatorTopLimit()){
 			intendToGoUp = false;
-		} else if (intendToGoUp == true) {
+		} else if (intendToGoUp) {
 			manipulator.elevatorRaise();
 		}
 		
-
-		if (dpadValue == DPAD_DOWN){
+		if (dpadValue == DPAD_DOWN) {
 			intendToGoDown = true;
 		}
+
 		if (manipulator.elevatorBottomLimit()){
 			intendToGoDown = false;
-		} else if (intendToGoDown == true) {
+		} else if (intendToGoDown) {
 			manipulator.elevatorLower();
 		}
+
 		if (infaredSensor.getValue() < tabValue){
 			wasWhite = true;
 		}
-		if (wasWhite == true && infaredSensor.getValue() >= tabValue){
+
+		if (wasWhite && infaredSensor.getValue() >= tabValue){
 			manipulator.elevatorStop();
 			wasWhite = false;
 			intendToGoUp = false;
@@ -220,10 +238,9 @@ public class Robot extends TimedRobot {
 		}
 	}
 
-
 	private void elevatorPeriodic() {
 		
-		boolean elevatorPresetsEnabled = false; // TODO: pull this value from shuffleboard toggle switch
+		boolean elevatorPresetsEnabled = elevatorPresetsToggle.getBoolean(false); 
 		if (elevatorPresetsEnabled) {
 			elevatorPresetLevelsPeriodic();
 		} else {
