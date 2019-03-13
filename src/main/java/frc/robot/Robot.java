@@ -177,13 +177,9 @@ public class Robot extends TimedRobot {
 		 //value isn't accurate; will change later
 		int dpadValue = controller.getPOV();
 
-<<<<<<< HEAD
-		manipulator.cameraServoSide.set(-controller.getRawAxis(4));
-		manipulator.cameraServoUp.set(controller.getRawAxis(5));
-=======
+
 		manipulator.cameraServoSide.set(controller.getRawAxis(5));
 		manipulator.cameraServoUp.set(controller.getRawAxis(4));
->>>>>>> a459d8349d2c0b6ef6e77fdee9cf86888b061907
 		
 		/*if (manipulator.elevatorBottomLimit() || manipulator.elevatorTopLimit()){
 			controller.setRumble(RumbleType.kLeftRumble, 1);
