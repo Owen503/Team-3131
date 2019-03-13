@@ -15,7 +15,11 @@ public class Manipulator {
 	double cameraValue = 0;
 
 	public void intake() {
+<<<<<<< HEAD
 		manipIntakeAndEject.set(0.3);	
+=======
+		manipIntakeAndEject.set(0.25);	
+>>>>>>> a459d8349d2c0b6ef6e77fdee9cf86888b061907
 	}
 	public void release() {
 		manipIntakeAndEject.set(-1);
@@ -23,11 +27,15 @@ public class Manipulator {
 	public void stopIntake() {
 		manipIntakeAndEject.set(0);
 	}
-	public boolean containsBall() {
+	public boolean doesNotContainBall() {
 		return intakeLimitSwitch.get();
 	}
 	public void angleRaise() {
+<<<<<<< HEAD
 		angleMotor.set(0.7);
+=======
+		angleMotor.set(0.6);
+>>>>>>> a459d8349d2c0b6ef6e77fdee9cf86888b061907
 	}
 	public void angleLower() {
 		angleMotor.set(-0.6);

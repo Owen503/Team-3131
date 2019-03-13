@@ -138,7 +138,7 @@ public class Robot extends TimedRobot {
 			controller.setRumble(RumbleType.kRightRumble, 0);
 		}
 
-		if(aButton.get() /*&& !manipulator.containsBall()*/) {
+		if(aButton.get() && manipulator.doesNotContainBall()) {
 			manipulator.intake();
 		}
 		else if(bButton.get()) {
@@ -146,7 +146,7 @@ public class Robot extends TimedRobot {
 		} else {
 			manipulator.stopIntake();
 		}
-
+  
 
 		if(rightJoystickButton.get()) {
 			autoRaiseToMiddle = true;
@@ -177,8 +177,13 @@ public class Robot extends TimedRobot {
 		 //value isn't accurate; will change later
 		int dpadValue = controller.getPOV();
 
+<<<<<<< HEAD
 		manipulator.cameraServoSide.set(-controller.getRawAxis(4));
 		manipulator.cameraServoUp.set(controller.getRawAxis(5));
+=======
+		manipulator.cameraServoSide.set(controller.getRawAxis(5));
+		manipulator.cameraServoUp.set(controller.getRawAxis(4));
+>>>>>>> a459d8349d2c0b6ef6e77fdee9cf86888b061907
 		
 		/*if (manipulator.elevatorBottomLimit() || manipulator.elevatorTopLimit()){
 			controller.setRumble(RumbleType.kLeftRumble, 1);
@@ -210,7 +215,7 @@ public class Robot extends TimedRobot {
 		} else if (intendToGoDown == true) {
 			manipulator.elevatorLower();
 		}
-		if (lightSensor.getValue() < tabValue){
+		if (infaredSensor.getValue() < tabValue){
 			wasWhite = true;
 		}
 		if (wasWhite == true && infaredSensor.getValue() >= tabValue){
