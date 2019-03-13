@@ -15,7 +15,7 @@ public class Manipulator {
 	double cameraValue = 0;
 
 	public void intake() {
-		manipIntakeAndEject.set(0.50);	
+		manipIntakeAndEject.set(0.3);	
 	}
 	public void release() {
 		manipIntakeAndEject.set(-1);
@@ -27,10 +27,10 @@ public class Manipulator {
 		return intakeLimitSwitch.get();
 	}
 	public void angleRaise() {
-		angleMotor.set(1);
+		angleMotor.set(0.7);
 	}
 	public void angleLower() {
-		angleMotor.set(-0.8);
+		angleMotor.set(-0.6);
 	}
 	public void angleStop() {
 		angleMotor.set(0);
@@ -39,7 +39,7 @@ public class Manipulator {
 		elevatorMotor.set(-1);
 	}
 	public void elevatorLower(){ 
-		elevatorMotor.set(0.75);
+		elevatorMotor.set(1);
 	}
 	public void elevatorStop(){
 		elevatorMotor.set(0);

@@ -8,7 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Compressor;
+//import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
@@ -17,6 +17,9 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
+/*import com.sun.org.apache.xerces.internal.impl.dv.xs.DoubleDV;*/
+
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.*;
@@ -34,7 +37,7 @@ public class Robot extends TimedRobot {
 		try {
 			frontClimbPiston = new DoubleSolenoid(1, 0);
 			backClimbPiston = new DoubleSolenoid(3, 2);
-			compressor = new Compressor(0);
+			//compressor = new Compressor(0);
 		} catch (Exception e) {
 			System.out.print("Cannot initialize all pneumatics!!!!!!!!!!!!!!!!!!!!");
 			System.out.print(e.toString());
@@ -59,19 +62,19 @@ public class Robot extends TimedRobot {
 	boolean autoRaiseToMiddle = false;
 	DoubleSolenoid frontClimbPiston;
 	DoubleSolenoid backClimbPiston;
-	Compressor compressor;
+	//Compressor compressor;
 	UsbCamera frontCamera;
 	boolean intendToGoUp = false;
 	boolean intendToGoDown = false;
 	boolean wasWhite = false;
 	double tabValue = 500;
-
+	int solenoidInitCount = 0;
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
 	public void robotInit() {
-		if (compressor != null) {
+		/*if (compressor != null) {
 			compressor.setClosedLoopControl(true);
-		}
+		}*/
 		CameraServer.getInstance().startAutomaticCapture();
 	}
 	
@@ -86,7 +89,7 @@ public class Robot extends TimedRobot {
 	}
 
 	public void autonomousPeriodic() {
-
+		teleopPeriodic();
 	}
 
 	public void teleopInit() {
@@ -155,10 +158,10 @@ public class Robot extends TimedRobot {
 		double presetAngleRange = .02;
 		double angleVoltage = angleSensor.getVoltage();
 
-		if ( yButton.get())/* && angleVoltage > topAngleValue)*/ {
+		if ( yButton.get() /*&& angleVoltage > topAngleValue*/) {
 			manipulator.angleRaise();
 			autoRaiseToMiddle = false;
-		} else if (xButton.get()/* && angleVoltage < bottomAngleValue*/){
+		} else if (xButton.get() /*&& angleVoltage < bottomAngleValue*/){
 			manipulator.angleLower();
 			autoRaiseToMiddle = false;
 
@@ -174,15 +177,18 @@ public class Robot extends TimedRobot {
 		 //value isn't accurate; will change later
 		int dpadValue = controller.getPOV();
 
-		manipulator.cameraServoSide.set(controller.getRawAxis(4));
+		manipulator.cameraServoSide.set(-controller.getRawAxis(4));
 		manipulator.cameraServoUp.set(controller.getRawAxis(5));
 		
-
-		if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit() ){
+		/*if (manipulator.elevatorBottomLimit() || manipulator.elevatorTopLimit()){
+			controller.setRumble(RumbleType.kLeftRumble, 1);
+			controller.setRumble(RumbleType.kRightRumble, 1);
+		}*/
+		if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit()){
 			manipulator.elevatorRaise();
-		} else if (dpadValue == DPAD_DOWN && !manipulator.elevatorBottomLimit() ){
+		} else if (dpadValue == DPAD_DOWN && !manipulator.elevatorBottomLimit()){
 			manipulator.elevatorLower();
-		} else {
+		} else{
 			manipulator.elevatorStop();
 		}
 
@@ -227,12 +233,18 @@ public class Robot extends TimedRobot {
 	}
 
 	public void doubleSolenoidControl() {
-	
 		if (frontClimbPiston == null || backClimbPiston == null) {
 			return;
 		}
 		
-		if(!leftBumper.get()) {
+		/*if (solenoidInitCount < 100	) {
+			frontClimbPiston.set(DoubleSolenoid.Value.kReverse);
+			backClimbPiston.set(DoubleSolenoid.Value.kReverse);
+			solenoidInitCount++;
+			return;
+		}*/
+		
+		if(!rightBumper.get()) {
 			frontClimbPiston.set(DoubleSolenoid.Value.kOff);
 		} else {
 			if (previousFrontButton == false) {
@@ -246,7 +258,7 @@ public class Robot extends TimedRobot {
 			}
 		}
 
-		if(!rightBumper.get()) {
+		if(!leftBumper.get()) {
 			backClimbPiston.set(DoubleSolenoid.Value.kOff);
 		} else  {
 			if (previousBackButton == false) {
