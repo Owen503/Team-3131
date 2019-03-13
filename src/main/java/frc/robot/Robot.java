@@ -8,7 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-//import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
@@ -17,10 +17,6 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-
-/*import com.sun.org.apache.xerces.internal.impl.dv.xs.DoubleDV;*/
-
-import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.*;
 
@@ -62,22 +58,26 @@ public class Robot extends TimedRobot {
 	boolean autoRaiseToMiddle = false;
 	DoubleSolenoid frontClimbPiston;
 	DoubleSolenoid backClimbPiston;
-	//Compressor compressor;
+	Compressor compressor;
 	UsbCamera frontCamera;
 	boolean intendToGoUp = false;
 	boolean intendToGoDown = false;
 	boolean wasWhite = false;
 	double tabValue = 500;
 	int solenoidInitCount = 0;
+
+	boolean previousBackButton = false;
+	boolean previousFrontButton = false;
+	boolean nextDirectionIsForward = true;
+
 	/* Init functions are run ONCE when the robot is first started up and should be
 	 * used for any initialization code. */
 	public void robotInit() {
-		/*if (compressor != null) {
+		if (compressor != null) {
 			compressor.setClosedLoopControl(true);
-		}*/
+		}
 		CameraServer.getInstance().startAutomaticCapture();
 	}
-	
 	
 	/* Periodic functions are ran several times a second the entire time the robot
 	 * is enabled */
@@ -97,19 +97,15 @@ public class Robot extends TimedRobot {
 	}
 
 	public void teleopPeriodic() {
-		teleopManipulatorPeriodic();
+		intakeEjectPeriodic();
+  		manipulatorAnglePeriodic();
+		cameraPanTiltPeriodic();
+		elevatorPeriodic();
 		teleopDrivePeriodic();
 		doubleSolenoidControl();
-	
-		
 	}
 
 	private void teleopDrivePeriodic() {
-		/*
-		driveTrain.arcadeDrive(
-			-Math.pow(controller.getRawAxis(1),3), 
-			Math.pow(controller.getRawAxis(0),3));
-		*/
 
 		double speed = 0.7;
 		if (leftJoystickButton.get()){
@@ -127,9 +123,7 @@ public class Robot extends TimedRobot {
 	/*double angleVoltage = angleSensor.getVoltage();
 	*/
 
-
-	private void teleopManipulatorPeriodic() {
-
+	private void intakeEjectPeriodic() {
 		if(aButton.get() && bButton.get()){
 			controller.setRumble(RumbleType.kLeftRumble, 1);
 			controller.setRumble(RumbleType.kRightRumble, 1);
@@ -146,7 +140,9 @@ public class Robot extends TimedRobot {
 		} else {
 			manipulator.stopIntake();
 		}
-  
+	}
+
+	private void manipulatorAnglePeriodic() {
 
 		if(rightJoystickButton.get()) {
 			autoRaiseToMiddle = true;
@@ -171,20 +167,18 @@ public class Robot extends TimedRobot {
 			manipulator.raise();
 		} */else {
 			manipulator.angleStop();
-			
 		}
 		
-		 //value isn't accurate; will change later
-		int dpadValue = controller.getPOV();
+	}
 
-
+	private void cameraPanTiltPeriodic() {
 		manipulator.cameraServoSide.set(controller.getRawAxis(5));
 		manipulator.cameraServoUp.set(controller.getRawAxis(4));
-		
-		/*if (manipulator.elevatorBottomLimit() || manipulator.elevatorTopLimit()){
-			controller.setRumble(RumbleType.kLeftRumble, 1);
-			controller.setRumble(RumbleType.kRightRumble, 1);
-		}*/
+	}
+
+
+	private void elevatorManualPeriodic() {
+		int dpadValue = controller.getPOV();
 		if (dpadValue == DPAD_UP && !manipulator.elevatorTopLimit()){
 			manipulator.elevatorRaise();
 		} else if (dpadValue == DPAD_DOWN && !manipulator.elevatorBottomLimit()){
@@ -192,8 +186,12 @@ public class Robot extends TimedRobot {
 		} else{
 			manipulator.elevatorStop();
 		}
+	}
 
-		/*if (dpadValue == DPAD_UP){
+	private void elevatorPresetLevelsPeriodic() {
+		int dpadValue = controller.getPOV();
+		
+		if (dpadValue == DPAD_UP){
 			intendToGoUp = true;
 		}
 		if (manipulator.elevatorTopLimit()){
@@ -219,15 +217,19 @@ public class Robot extends TimedRobot {
 			wasWhite = false;
 			intendToGoUp = false;
 			intendToGoDown = false;
-		}*/
+		}
+	}
 
-		System.out.println("wasWhite: ");
-		System.out.println(wasWhite);
-		System.out.println("intendToGoDown: ");
-		System.out.println(intendToGoDown);
+
+	private void elevatorPeriodic() {
 		
-		
-	} 
+		boolean elevatorPresetsEnabled = false; // TODO: pull this value from shuffleboard toggle switch
+		if (elevatorPresetsEnabled) {
+			elevatorPresetLevelsPeriodic();
+		} else {
+			elevatorManualPeriodic();
+		}
+	}
 	
 	public void testPeriodic() {
 
@@ -238,12 +240,14 @@ public class Robot extends TimedRobot {
 			return;
 		}
 		
-		/*if (solenoidInitCount < 100	) {
+		/*
+		if (solenoidInitCount < 200	) { // lift solenoids for 4 seconds on startup
 			frontClimbPiston.set(DoubleSolenoid.Value.kReverse);
 			backClimbPiston.set(DoubleSolenoid.Value.kReverse);
 			solenoidInitCount++;
 			return;
-		}*/
+		}
+		*/
 		
 		if(!rightBumper.get()) {
 			frontClimbPiston.set(DoubleSolenoid.Value.kOff);
@@ -274,10 +278,5 @@ public class Robot extends TimedRobot {
 		}
 		previousFrontButton = leftBumper.get();
 		previousBackButton = rightBumper.get();
-	}
-
-	boolean previousBackButton = false;
-	boolean previousFrontButton = false;
-	boolean nextDirectionIsForward = true;
-	
+	}	
 }

@@ -27,7 +27,7 @@ public class Manipulator {
 		return intakeLimitSwitch.get();
 	}
 	public void angleRaise() {
-angleMotor.set(0.6);
+		angleMotor.set(0.6);
 	}
 	public void angleLower() {
 		angleMotor.set(-0.6);
@@ -50,5 +50,4 @@ angleMotor.set(0.6);
 	public boolean elevatorBottomLimit() {
 		return elevatorBottomLimitSwitch.get();
 	}	
-	
 }
